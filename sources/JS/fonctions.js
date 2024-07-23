@@ -16,9 +16,9 @@ ajouteBlocIBD = function(_options_)
 	// Si pas de dimension définie....
 	if(typeof(_options_)!="undefined")
 	{
-		if(typeof(_options_.largeur)=="undefined")
+		if(typeof(_options_.LARGEUR)=="undefined")
 			bloc.fitLargeur();
-		if(typeof(_options_.hauteur)=="undefined")
+		if(typeof(_options_.HAUTEUR)=="undefined")
 			bloc.fitHauteur();
 	}
 	

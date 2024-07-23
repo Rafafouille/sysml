@@ -71,7 +71,6 @@ class ObjetGraphique extends createjs.Container
 			 		this.#cache = !Boolean(this.#zoomLimite < DIAGRAMME.unite()) ;
 			 	if("cache" in _options_)
 			 		this.#cache = _options_.cache ;
-			 	console.log( _options_.cache );
 			 	if("tempsAnimation" in _options_)
 			 		this.#tempsAnimation = _options_.tempsAnimation ;
 			 	if("position" in _options_)

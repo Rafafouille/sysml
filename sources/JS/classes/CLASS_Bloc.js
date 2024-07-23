@@ -65,7 +65,7 @@ class Bloc extends ObjetGraphique
 		* @private
 		* @type {array}
 		* @default []*/
-		#blocsEnfants = []; // Liste d'éléments enfants
+			#blocsEnfants = []; // Liste d'éléments enfants
 		
 		/** Référence d'un éventuel bloc parent dans lequel ce bloc est contenu.
 		* @private
@@ -77,7 +77,7 @@ class Bloc extends ObjetGraphique
 		* @private
 		* @type {array}
 		* @default []*/
-		#ports = [];
+			#ports = [];
 		
 		/** Position de l'objet, pour un zoom de 100%
 		* @private
@@ -89,21 +89,43 @@ class Bloc extends ObjetGraphique
 		* @private
 		* @type {array}
 		* @default 100*/
-			#largeur = 100;
+			#LARGEUR = 100;
 			
 		/** Hauteur du bloc (en px pour un zoom de 100%)
 		* @private
 		* @type {array}
 		* @default 100*/
-			#hauteur = 100;
+			#HAUTEUR = 100;
+		
+			
+		/** Différence entre la position de l'objet et de la souris au début d'un clic
+		* @private
+		* @type {object}
+		* @default null*/
+			#offsetClic = null;
 		
 			
 		/** Position de la souris au début d'un clic
 		* @private
 		* @type {object}
 		* @default null*/
-			#offsetClic = null;
+			#posInitClic = null;
 		
+			
+		/** Largeur de la boite au début d'un clic
+		* @private
+		* @type {object}
+		* @default null*/
+			#LARGEURInit = 0;
+
+			
+		/** Hauteur de la boite au début d'un clic
+		* @private
+		* @type {object}
+		* @default null*/
+			#HAUTEURInit = 0;
+
+
 		/** Objet (graphique) contenant l'entête du bloc (titre, etc...)
 		* @public
 		* @type {createjs.Container}
@@ -124,7 +146,17 @@ class Bloc extends ObjetGraphique
 			TEXT_TITRE = null;
 		
 		
+		/** Objet (graphique) la poingée pour étirer l'objet vers la gauche
+		* @public
+		* @type {createjs.Shape}
+		* @default null*/
+			BORD_GAUCHE = null;
 		
+		/** Largeur des poignées transparentes (pour redimensionner)
+		* @public
+		* @type {number}
+		* @default 20*/
+			#taillePoignees = 20;
 		
 	// ****************************************************
 	/** Constructeur
@@ -152,14 +184,16 @@ class Bloc extends ObjetGraphique
 			 		this.#marge = _options_.marge ;
 			 	if("deplacable" in _options_)
 			 		this.#deplacable = _options_.deplacable ;
-			 	if("largeur" in _options_)
-			 		this.#largeur = _options_.largeur ;
-			 	if("hauteur" in _options_)
-			 		this.#hauteur = _options_.hauteur ;
+			 	if("LARGEUR" in _options_)
+			 		this.#LARGEUR = _options_.LARGEUR ;
+			 	if("HAUTEUR" in _options_)
+			 		this.#HAUTEUR = _options_.HAUTEUR ;
 			 	if("X" in _options_)
 			 		this.X(_options_.X, false);
 			 	if("Y" in _options_)
 			 		this.Y(_options_.Y, false) ; 
+			 	if("taillePoignees" in _options_)
+			 		this.#taillePoignees = _options_.taillePoignees ; 
 			}
 			
 			
@@ -168,6 +202,45 @@ class Bloc extends ObjetGraphique
 			this.ENTETE = new createjs.Container()
 				this.addChild(this.ENTETE);
 				
+			var blurFilter = new createjs.BlurFilter(5, 5, 1);
+
+			this.BORD_DROIT = new createjs.Shape();
+				this.BORD_DROIT.alpha=0.01;
+				this.BORD_DROIT.cursor="ew-resize";
+				this.addChild(this.BORD_DROIT);
+			this.BORD_GAUCHE = new createjs.Shape();
+				this.BORD_GAUCHE.alpha=0.01;
+				this.BORD_GAUCHE.cursor="ew-resize";
+				this.addChild(this.BORD_GAUCHE);
+			this.BORD_HAUT = new createjs.Shape();
+				this.BORD_HAUT.alpha=0.01;
+				this.BORD_HAUT.cursor="ns-resize";
+				this.addChild(this.BORD_HAUT);
+			this.BORD_BAS = new createjs.Shape();
+				this.BORD_BAS.alpha=0.01;
+				this.BORD_BAS.cursor="ns-resize";
+				this.addChild(this.BORD_BAS);
+				
+			this.COIN_HAUT_DROIT = new createjs.Shape();
+				this.COIN_HAUT_DROIT.alpha=0.01;
+				this.COIN_HAUT_DROIT.cursor="nesw-resize";
+				this.COIN_HAUT_DROIT.name="COIN_HAUT_DROIT";
+				this.addChild(this.COIN_HAUT_DROIT);
+			this.COIN_HAUT_GAUCHE = new createjs.Shape();
+				this.COIN_HAUT_GAUCHE.alpha=0.01;
+				this.COIN_HAUT_GAUCHE.cursor="nwse-resize";
+				this.COIN_HAUT_GAUCHE.name="COIN_HAUT_GAUCHE";
+				this.addChild(this.COIN_HAUT_GAUCHE);
+			this.COIN_BAS_DROIT = new createjs.Shape();
+				this.COIN_BAS_DROIT.alpha=0.01;
+				this.COIN_BAS_DROIT.cursor="nwse-resize";
+				this.COIN_BAS_DROIT.name="COIN_BAS_DROIT";
+				this.addChild(this.COIN_BAS_DROIT);
+			this.COIN_BAS_GAUCHE = new createjs.Shape();
+				this.COIN_BAS_GAUCHE.alpha=0.01;
+				this.COIN_BAS_GAUCHE.cursor="nesw-resize";
+				this.COIN_BAS_GAUCHE.name="COIN_BAS_GAUCHE";
+				this.addChild(this.COIN_BAS_GAUCHE);
 
 				
 			this.deplacable(true);
@@ -257,7 +330,26 @@ class Bloc extends ObjetGraphique
 		
 		
 		// ---------------------------------------
-		/** Largeur du bloc, pour un zoom de 100%. (getter/setter)
+		/** Largeur du bloc, pour un zoom de 100%. (getter/setter). À ne pas confondre avec this.largeur() (en minuscule) qui est la largeur réelle en pixel (pour le zoom courant).
+		 * @param {number} [_l_] - Largeur (en px). Si absent, la fonction devient un getter.
+		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
+		 * @return {number} Largeur (final).
+		*/
+		LARGEUR(_l_, _redessine_=true)
+		{
+			if(typeof(_l_) != 'undefined')
+			{
+				this.#LARGEUR = _l_;
+				this.updatePositionPorts();
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#LARGEUR
+		}
+		
+		
+		// ---------------------------------------
+		/** Largeur reelle du bloc, pour le zoom courant. (getter/setter).À ne pas confondre avec this.LARGEUR() (en majuscule) qui est la largeur en pixel pour le zoom 100%.
 		 * @param {number} [_l_] - Largeur (en px). Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} Largeur (final).
@@ -266,17 +358,36 @@ class Bloc extends ObjetGraphique
 		{
 			if(typeof(_l_) != 'undefined')
 			{
-				this.#largeur = _l_;
+				this.#LARGEUR = _l_/this.unite();
 				this.updatePositionPorts();
 				if(_redessine_)
 					{this.redessine();}
 			}
-			return this.#largeur
+			return this.#LARGEUR*this.unite();
 		}
 		
 		
 		// ---------------------------------------
-		/** Hauteur du bloc, pour un zoom de 100%. (getter/setter)
+		/** Hauteur du bloc, pour un zoom de 100%. (getter/setter). À ne pas confondre avec this.hauteur() (en minuscule) qui est la hauteur réelle en pixel (pour le zoom courant).
+		 * @param {number} [_h_] - Hauteur (en px). Si absent, la fonction devient un getter.
+		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
+		 * @return {number} Hauteur (final).
+		*/
+		HAUTEUR(_h_, _redessine_=true)
+		{
+			if(typeof(_h_) != 'undefined')
+			{
+				this.#HAUTEUR = _h_;
+				this.updatePositionPorts();
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#HAUTEUR
+		}
+		
+		
+		// ---------------------------------------
+		/** Hauteur du bloc, pour un zoom de 100%. (getter/setter).À ne pas confondre avec this.HAUTEUR() (en majuscule) qui est la hauteur en pixel pour le zoom de 100%.
 		 * @param {number} [_h_] - Hauteur (en px). Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} Hauteur (final).
@@ -285,13 +396,14 @@ class Bloc extends ObjetGraphique
 		{
 			if(typeof(_h_) != 'undefined')
 			{
-				this.#hauteur = _h_;
+				this.#HAUTEUR = _h_/this.unite();
 				this.updatePositionPorts();
 				if(_redessine_)
 					{this.redessine();}
 			}
-			return this.#hauteur
+			return this.#HAUTEUR*this.unite();
 		}
+		
 		
 		
 		// ---------------------------------------
@@ -330,6 +442,25 @@ class Bloc extends ObjetGraphique
 		}
 		
 		
+		
+		// ---------------------------------------
+		/** Taille des poignées (transparentes) qui permettent de redimensionner la boite (getter/setter)
+		 * @param {number} [_m_] - Taille de la poignée (en px)
+		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
+		 * @return {number} Taille de la poignée (final).
+		*/
+		taillePoignees(_t_, _redessine_=true)
+		{
+			if(typeof(_t_) != 'undefined')
+			{
+				this.#taillePoignees = _t_;
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#taillePoignees;
+		}
+		
+		
 		// ---------------------------------------
 		/** Indique si c'est déplacable (avec la souris) ou non.
 		 * @param {boolean} [_d_] - Autorisation de déplacer (true) ou non (false). Si absent, la fonction devient un getter.
@@ -342,7 +473,7 @@ class Bloc extends ObjetGraphique
 			{
 				this.#deplacable = Boolean(_d_);
 				if(_d_)
-					this.cursor = "pointer" ;
+					this.cursor = "grab" ;
 				else
 					this.cursor = "default" ;
 			}
@@ -362,7 +493,7 @@ class Bloc extends ObjetGraphique
 		position(_p_, _redessine_=true)
 		{
 			if(typeof(_p_) != 'undefined')
-			{
+			{cursor
 				if(_p_ instanceof Position)
 				{
 					//Déplacement des blocs enfants
@@ -453,7 +584,7 @@ class Bloc extends ObjetGraphique
 		/** Ajuste les dimensions de la boite à son contenant.
 		 *
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
-		 * @returns {object} Nouvelles dimensions du bloc {largeur : ,  hauteur : }
+		 * @returns {object} Nouvelles dimensions du bloc {LARGEUR : , HAUTEUR : }
 		*/
 		fit(redessine_=true)
 		{
@@ -463,7 +594,7 @@ class Bloc extends ObjetGraphique
 			if(redessine_)
 				this.redessine();
 				
-			return {largeur:this.#largeur, hauteur:this.#hauteur}
+			return {LARGEUR:this.#LARGEUR, HAUTEUR:this.#HAUTEUR}
 		}
 		
 		
@@ -475,8 +606,8 @@ class Bloc extends ObjetGraphique
 		*/
 		fitLargeur(redessine_=true)
 		{
-			this.#largeur = Math.max(this.TEXT_TITRE.getBounds().width)+2*this.#marge;
-			return this.#largeur;
+			this.#LARGEUR = Math.max(this.TEXT_TITRE.getBounds().width)+2*this.#marge;
+			return this.#LARGEUR;
 		}
 		
 		
@@ -488,8 +619,8 @@ class Bloc extends ObjetGraphique
 		*/
 		fitHauteur(redessine_=true)
 		{
-			this.#hauteur = Math.max(this.ENTETE.getBounds().height);
-			return this.#hauteur;
+			this.#HAUTEUR = Math.max(this.ENTETE.getBounds().height);
+			return this.#HAUTEUR;
 		}
 		
 		
@@ -616,7 +747,7 @@ class Bloc extends ObjetGraphique
 		*/
 		getPointMilieu()
 		{
-			return new Position(this.X(), this.Y()+this.hauteur()/2, 0)
+			return new Position(this.X(), this.Y()+this.HAUTEUR()/2, 0)
 			//return {X:this.X(), Y: this.Y() +this.hauteur()/2}
 		}
 		
@@ -630,7 +761,7 @@ class Bloc extends ObjetGraphique
 		{
 			var _X_ = _pos_.X();
 			var _Y_ = _pos_.Y();
-			return _X_>=this.X()-this.largeur()/2 && _X_<= this.X()+this.largeur()/2 && _Y_>=this.Y() && _Y_<=this.Y()+this.hauteur();
+			return _X_>=this.X()-this.LARGEUR()/2 && _X_<= this.X()+this.LARGEUR()/2 && _Y_>=this.Y() && _Y_<=this.Y()+this.HAUTEUR();
 		}
 		
 		
@@ -678,8 +809,8 @@ class Bloc extends ObjetGraphique
 		
 			//1 = droite, 2/ = bas, 3/ = gauche, 4/=haut;
 			
-			var l = this.largeur();
-			var h = this.hauteur();
+			var l = this.LARGEUR();
+			var h = this.HAUTEUR();
 			var demiAngleDroit = Math.atan2(h,l)*180/Math.PI;
 			if(a<=demiAngleDroit || a>=360-demiAngleDroit)
 				var direction = 1
@@ -692,13 +823,13 @@ class Bloc extends ObjetGraphique
 
 			
 			if(direction==1)
-				return new Position(this.#largeur/2 + this.X(),  this.#largeur/2 * Math.tan(a*Math.PI/180)+ this.Y() + this.#hauteur/2,  0);
+				return new Position(this.#LARGEUR/2 + this.X(),  this.#LARGEUR/2 * Math.tan(a*Math.PI/180)+ this.Y() + this.#HAUTEUR/2,  0);
 			else if(direction==2)
-				return new Position(this.#hauteur/2 * Math.tan(a*Math.PI/180)+ this.X(), this.#hauteur+ this.Y(), 90);
+				return new Position(this.#HAUTEUR/2 * Math.tan(a*Math.PI/180)+ this.X(), this.#HAUTEUR+ this.Y(), 90);
 			else if(direction==3)
-				return new Position(-this.#largeur/2+ this.X(),   -this.#largeur/2 * Math.tan(a*Math.PI/180)+ this.Y() + this.#hauteur/2,   180);
+				return new Position(-this.#LARGEUR/2+ this.X(),   -this.#LARGEUR/2 * Math.tan(a*Math.PI/180)+ this.Y() + this.#HAUTEUR/2,   180);
 			else if(direction==4)
-				return new Position(this.#hauteur/2 * Math.tan((a-270)*Math.PI/180)+ this.X(),   this.Y(), -90);
+				return new Position(this.#HAUTEUR/2 * Math.tan((a-270)*Math.PI/180)+ this.X(),   this.Y(), -90);
 			return new Position();
 		}
 		
@@ -762,8 +893,8 @@ class Bloc extends ObjetGraphique
 				//'blocsEnfants':this.#blocsEnfants,
 				//'blocParent':this.#blocParent,
 				//'ports':this.#ports,
-				'largeur':this.#largeur,
-				'hauteur':this.#hauteur
+				'LARGEUR':this.#LARGEUR,
+				'HAUTEUR':this.#HAUTEUR
 			}
 		 	return "ajouteBloc("+JSON.stringify(PARAM)+")";
 		 }
@@ -796,10 +927,50 @@ class Bloc extends ObjetGraphique
 		
 			this.redessineEntete();
 			this.redessineCadre();
+			this.redessinePoingees();
+		
+		
 		
 		
 			if(_update_)
 				this.stage.update();
+		}
+		
+		
+		// ---------------------------------------
+		/** Redessine les poignées pour étirer le bloc
+		 * @param {boolean} [_update_=false] - Indique s'il faut mettre à jour la scène (stage).
+		*/
+		redessinePoingees(_update_ = false)
+		{
+		
+			// Redessine les poignées droite
+			this.BORD_DROIT.graphics.clear();
+			this.BORD_DROIT.graphics.setStrokeStyle(this.#taillePoignees).beginStroke("#00FF00").moveTo(this.largeur()/2,0).lineTo(this.largeur()/2,this.hauteur());
+			// Redessine les poignées gauche
+			this.BORD_GAUCHE.graphics.clear();
+			this.BORD_GAUCHE.graphics.setStrokeStyle(this.#taillePoignees).beginStroke("#00FF00").moveTo(-this.largeur()/2,0).lineTo(-this.largeur()/2,this.hauteur());
+			// Redessine les poignées haute
+			this.BORD_HAUT.graphics.clear();
+			this.BORD_HAUT.graphics.setStrokeStyle(this.#taillePoignees).beginStroke("#00FF00").moveTo(-this.largeur()/2,0).lineTo(this.largeur()/2,0);
+			// Redessine les poignées bas
+			this.BORD_BAS.graphics.clear();
+			this.BORD_BAS.graphics.setStrokeStyle(this.#taillePoignees).beginStroke("#00FF00").moveTo(-this.largeur()/2,this.hauteur()).lineTo(this.largeur()/2,this.hauteur());
+			
+			// Redessine le coin haut droit
+			this.COIN_HAUT_DROIT.graphics.clear();
+			this.COIN_HAUT_DROIT.graphics.beginFill("red").drawCircle(this.largeur()/2,0,this.#taillePoignees/2);
+			// Redessine le coin haut gauche
+			this.COIN_HAUT_GAUCHE.graphics.clear();
+			this.COIN_HAUT_GAUCHE.graphics.beginFill("red").drawCircle(-this.largeur()/2,0,this.#taillePoignees/2);
+			// Redessine le coin bas droit
+			this.COIN_BAS_DROIT.graphics.clear();
+			this.COIN_BAS_DROIT.graphics.beginFill("red").drawCircle(this.largeur()/2,this.hauteur(),this.#taillePoignees/2);
+			// Redessine le coin bas gauche
+			this.COIN_BAS_GAUCHE.graphics.clear();
+			this.COIN_BAS_GAUCHE.graphics.beginFill("red").drawCircle(-this.largeur()/2,this.hauteur(),this.#taillePoignees/2);
+			
+			
 		}
 		
 		
@@ -820,10 +991,10 @@ class Bloc extends ObjetGraphique
 				this.TEXT_TITRE.y = this.#marge ;
 			this.ENTETE.addChild(this.TEXT_TITRE);
 			
-			if(this.TEXT_TITRE.getBounds().width > this.#largeur*unit)
+			if(this.TEXT_TITRE.getBounds().width > this.largeur())
 				{
 					var bounds = this.TEXT_TITRE.getBounds();
-					this.TEXT_TITRE.scaleX = this.#largeur*unit / bounds.width
+					this.TEXT_TITRE.scaleX = this.largeur() / bounds.width
 					this.TEXT_TITRE.scaleY = this.TEXT_TITRE.scaleX;
 					this.TEXT_TITRE.setBounds(bounds.x, bounds.y, bounds.width*this.TEXT_TITRE.scaleX, bounds.height*this.TEXT_TITRE.scaleY)
 				}
@@ -832,13 +1003,13 @@ class Bloc extends ObjetGraphique
 				ligne.graphics.setStrokeStyle(this.#epaisseurLigneSeparations);
 				ligne.graphics.beginStroke("black");
 				var yLigne = this.TEXT_TITRE.y+this.TEXT_TITRE.getBounds().height+this.#marge;
-				if(yLigne>this.#hauteur*unit)
-					yLigne = this.#hauteur*unit;
-				ligne.graphics.moveTo(-this.largeur()/2* unit,yLigne);
-				ligne.graphics.lineTo(this.largeur()/2*unit,yLigne);
+				if(yLigne>this.hauteur())
+					yLigne = this.hauteur();
+				ligne.graphics.moveTo(-this.largeur()/2,yLigne);
+				ligne.graphics.lineTo(this.largeur()/2,yLigne);
 			this.ENTETE.addChild(ligne);
 			
-			this.ENTETE.setBounds(-this.largeur()/2*unit, 0, this.largeur()*unit, this.TEXT_TITRE.y+this.TEXT_TITRE.getBounds().height+this.#marge);
+			this.ENTETE.setBounds(-this.largeur()/2, 0, this.largeur(), this.TEXT_TITRE.y+this.TEXT_TITRE.getBounds().height+this.#marge);
 		
 			if(_update_)
 				this.stage.update();
@@ -857,13 +1028,13 @@ class Bloc extends ObjetGraphique
 			
 			var rectangle = new createjs.Shape();
 				rectangle.graphics.beginFill(this.#couleur);
-				rectangle.graphics.drawRect (-this.largeur()/2*unit,0,this.largeur()*unit,this.hauteur()*unit+this.#marge);
+				rectangle.graphics.drawRect (-this.largeur()/2,0,this.largeur(),this.hauteur()+this.#marge);
 				rectangle.shadow = new createjs.Shadow('#555', 4, 4, 5);
 		
 			var rectangleContour = new createjs.Shape();
 				rectangleContour.graphics.setStrokeStyle(this.#epaisseurLigneCadre);
 				rectangleContour.graphics.beginStroke('black');
-				rectangleContour.graphics.drawRect (-this.largeur()/2*unit,0,this.largeur()*unit,this.hauteur()*unit+this.#marge);
+				rectangleContour.graphics.drawRect (-this.largeur()/2,0,this.largeur(),this.hauteur()+this.#marge);
 				
 			this.CADRE.addChild(rectangle);
 			this.CADRE.addChild(rectangleContour);
@@ -883,6 +1054,17 @@ class Bloc extends ObjetGraphique
 		
 		
 		
+		
+		// ---------------------------------------
+		/** Renvoie si l'élément graphique est un bord ou pas. Cette fonction est utile pour les événements de redimensionnement.
+		 * @param {createjs.DisplayObject} [elem] - Élément dont on souhaite savoir s'il fait partie du bord
+		 * @return {boolean} Indique si oui (true) ou non (false) on est sur le bord
+		*/
+		estUnBord(elem)
+		{
+			var tab=[this.BORD_GAUCHE,this.BORD_DROIT,this.BORD_HAUT,this.BORD_BAS,this.COIN_HAUT_DROIT, this.COIN_HAUT_GAUCHE, this.COIN_BAS_GAUCHE, this.COIN_BAS_DROIT]
+			return tab.includes(elem);
+		}
 		
 		
 		
@@ -905,8 +1087,9 @@ class Bloc extends ObjetGraphique
 		 	tab.couleur = this.#couleur ;
 		 	tab.marge = this.#marge ;
 		 	tab.deplacable = this.#deplacable ;
-		 	tab.largeur = this.#largeur ;
-		 	tab.hauteur = this.#hauteur
+		 	tab.LARGEUR = this.#LARGEUR ;
+		 	tab.HAUTEUR = this.#HAUTEUR ;
+		 	tab.taillePoignees = this.#taillePoignees ;
 		 	
 		 	return tab;
 		 }
@@ -939,8 +1122,12 @@ class Bloc extends ObjetGraphique
 		{
 			if(evt.nativeEvent.buttons==1)
 			{
+				this.#posInitClic = {x:evt.stageX , y:evt.stageY}
+				this.#LARGEURInit = this.LARGEUR();
+				this.#HAUTEURInit = this.HAUTEUR();
 				this.#offsetClic = {x:this.x-evt.stageX, y:this.y-evt.stageY};
 				this.placeAu1erPlan();
+				this.cursor = "grabbing" ;
 			}
 		}
 	
@@ -951,11 +1138,50 @@ class Bloc extends ObjetGraphique
 		*/
 		PRESSMOVE(evt)
 		{
-			if(this.#deplacable && evt.nativeEvent.buttons==1)
+			var u = this.unite();
+			if(this.#deplacable && evt.nativeEvent.buttons==1) // Si clic droit et déplacable
 			{
-				var u = this.unite();
-				this.X((evt.stageX+this.#offsetClic.x)/u)
-				this.Y((evt.stageY+this.#offsetClic.y)/u)
+				// Si on agrandit par la DROITE (inclut diagonales)
+				if(evt.target == this.BORD_DROIT || evt.target == this.COIN_HAUT_DROIT || evt.target == this.COIN_BAS_DROIT) // Si on clique sur le BORD GAUCHE ----
+				{
+					if(this.#LARGEURInit + (evt.stageX-this.#posInitClic.x) / u >20)
+					{
+						this.X(((evt.stageX+this.#posInitClic.x)/2+this.#offsetClic.x)/u)
+						this.LARGEUR(this.#LARGEURInit + (evt.stageX-this.#posInitClic.x)/u);
+					}
+				}
+				// Si on agrandit par la GAUCHE (inclut diagonales)
+				if(evt.target == this.BORD_GAUCHE || evt.target == this.COIN_HAUT_GAUCHE || evt.target == this.COIN_BAS_GAUCHE) // Si on clique sur le BORD GAUCHE ----
+				{
+					if(this.#LARGEURInit - (evt.stageX-this.#posInitClic.x)/u > 20)
+					{
+						this.X(((evt.stageX+this.#posInitClic.x)/2+this.#offsetClic.x)/u)
+						this.LARGEUR(this.#LARGEURInit - (evt.stageX-this.#posInitClic.x)/u);
+					}
+				}
+				// Si on agrandit par le HAUT (inclut diagonales)
+				if(evt.target == this.BORD_HAUT || evt.target == this.COIN_HAUT_DROIT || evt.target == this.COIN_HAUT_GAUCHE) // Si on clique sur le BORD GAUCHE ----
+				{
+					if(this.#HAUTEURInit - (evt.stageY-this.#posInitClic.y)/u > 40)
+					{
+						this.Y((evt.stageY+this.#offsetClic.y)/u)
+						this.HAUTEUR(this.#HAUTEURInit - (evt.stageY-this.#posInitClic.y)/u);
+					}
+				}
+				// Si on agrandit par le BAS (inclut diagonales)
+				if(evt.target == this.BORD_BAS || evt.target == this.COIN_BAS_DROIT || evt.target == this.COIN_BAS_GAUCHE) // Si on clique sur le BORD GAUCHE ----
+				{
+					if(this.#HAUTEURInit + (evt.stageY-this.#posInitClic.y)/u > 40)
+					{
+						//Y ne bouge pas
+						this.HAUTEUR(this.#HAUTEURInit + (evt.stageY-this.#posInitClic.y)/u);
+					}
+				}
+				if(!this.estUnBord(evt.target)) // Tous les autres cas (si on déplace)
+				{
+					this.X((evt.stageX+this.#offsetClic.x)/u)
+					this.Y((evt.stageY+this.#offsetClic.y)/u)
+				}
 			}
 		}
 	
@@ -966,8 +1192,10 @@ class Bloc extends ObjetGraphique
 		*/
 		UNPRESS(evt)
 		{
+			
 			if(evt.nativeEvent.button==0)
 			{
+				this.cursor = "grab" ;
 				var elem = this.elementDirectementEnDessous();
 				if(elem) // S'il y a un élément en dessous
 				{
