@@ -1,10 +1,35 @@
-ajouteBloc = function(nom="", type="", position={x:200,y:200})
+ajouteBlocIBD = function(_options_)
 {
-	var bloc = new BlocIBD(nom,type)
-	bloc.position(position,false);
+	var bloc = new BlocIBD(_options_)
+	//bloc.position(position,false);
+	
+	// Visibilité
+	//bloc.alpha = Boolean(bloc.zoomLimite() < DIAGRAMME.unite());
+	
+	
+	// Ajout sur la scene
 	DIAGRAMME.CONTENU.addChild(bloc);
 	bloc.redessine(false);
-	bloc.fit();
+	
+	
+	
+	// Si pas de dimension définie....
+	if(typeof(_options_)!="undefined")
+	{
+		if(typeof(_options_.largeur)=="undefined")
+			bloc.fitLargeur();
+		if(typeof(_options_.hauteur)=="undefined")
+			bloc.fitHauteur();
+	}
+	
+	
+	
+	
+	// Appartenance à un bloc parent
+	var elem = bloc.elementDirectementEnDessous();
+	if(elem) // S'il y a un élément en dessous
+		elem.ajouteBlocEnfant(bloc);
+	
 	
 	return bloc
 }
@@ -54,4 +79,41 @@ verticalOuHorizontal = function(_angle_)
 	if(_angle_<=45 || _angle_>=135 && _angle_<=225 || _angle_>=315)
 		return "h";
 	return "v";
+}
+
+
+
+
+
+
+		
+// ---------------------------------------
+/** Fonction qui définit le zoom limite comme étant le zoom actuel
+ * @param {integer} [id] - id (au sens de CreateJS) de l'objet graphique concerné
+*/
+bloqueZoomLimite = function(_obj_)
+{
+	console.log(_obj_);
+	_obj_.x+=100;
+}
+
+
+
+		
+// ---------------------------------------
+/** Ouvre la boite de dialogue qui affiche le code de génération du diagramme
+*/
+ouvreBoiteGenereCode = function()
+{
+	var texte = "";
+	for(var i=0; i<DIAGRAMME.CONTENU.children.length; i++)
+	{
+		var obj = DIAGRAMME.CONTENU.children[i];
+		if(typeof obj.getCommande !== "undefined")
+			texte += obj.getCommande()+"\n";
+	}
+	
+
+	$("#boiteGenereCode_contenu").text(texte) ;
+	$("#boiteGenereCode").dialog("open") ;
 }

@@ -1,0 +1,40 @@
+/* ==================================
+              MENU
+==================================== */
+
+
+#menu
+{
+	float:right;
+}
+
+#menu .bouton
+{
+	border:solid;
+	padding:5px;
+	border-radius : 5px;
+	cursor:pointer;
+	background-color:#EEEEEE;
+	border-top:solid 2px #F5F5F5;
+	border-left:solid 2px #F5F5F5;
+	border-bottom:solid 2px #AAAAAA;
+	border-right:solid 2px #AAAAAA;
+}
+#menu .bouton:hover
+{
+	border-bottom:solid 2px #F5F5F5;
+	border-right:solid 2px #F5F5F5;
+	border-top:solid 2px #AAAAAA;
+	border-left:solid 2px #AAAAAA;
+}
+
+
+
+
+
+/* ==================================
+              BOITES
+==================================== */
+
+
+

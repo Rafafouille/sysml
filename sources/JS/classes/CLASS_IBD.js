@@ -18,9 +18,9 @@ class IBD extends Diagramme
 		
 		
 	// Constructeur ***********************************
-		constructor(_titre_,_systeme_,options)
+		constructor(_titre_,_systeme_,_options_)
 		{
-			super(_titre_,"ibd",_systeme_,options);
+			super(_titre_,"ibd",_systeme_,_options_);
 			
 			//this.redessine();
 		}

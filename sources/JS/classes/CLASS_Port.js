@@ -19,7 +19,8 @@ class Port extends ObjetGraphique
 		#couleur = "#ccfdff";
 		#epaisseurLigne = 2;
 		#sens = "out";
-		
+		#blocParent = null;
+		#bordParent = 0;	// 1 = droite, 2 = bas, 3= gauche, 4=haut
 		
 		
 		
@@ -193,6 +194,112 @@ class Port extends ObjetGraphique
 			return this.#sens;
 		}
 	
+	
+	
+		
+		
+		// ---------------------------------------
+		/** Sens du flux. Cela indique comment dessiner la flèche. (getter/setter)
+		 * @param {string} [_s_] - Sens. Pour un angle nul, "in" = vers la droite ; "out" = vers la gauche, "double" = double flèche, null = pas de sens)
+		 * @return {number} Sens (final).
+		*/
+		blocParent(_p_, _redessine_=true)
+		{
+			if(typeof(_p_) != 'undefined')
+			{
+				this.#blocParent = _p_;
+			}
+			return this.#blocParent;
+		}
+		
+		
+		
+	
+		
+		
+		// ---------------------------------------
+		/** Référence vers le flux parent
+		 * @return {Flux} Flux parent.
+		*/
+		flux()
+		{
+			return this.parent;
+		}
+		
+		
+		
+		
+		
+		
+		
+		// ---------------------------------------
+		/** Coordonnée sur x de la position souhaitée du port pour un zoom de 100% . (getter/setter)
+		 *
+		 * @param {number} [_x_] - Position sur x (en px). Si absent, la fonction devient un getter.
+		 * @param {boolean} [_redessine_=true] - Repositionne et retrace le flux
+		 * @return {number} Position sur x (final).
+		*/
+		X(_x_, _redessine_=true)
+		{
+			if(typeof(_x_) != 'undefined')
+			{
+				this.#position.X = _x_;
+				if(_redessine_)
+					{
+						this.x=_x_*this.unite();
+						this.flux().redessine();
+					}
+			}
+			return this.#position.X;
+		}
+		
+		
+		
+		
+		
+		
+		// ---------------------------------------
+		/** Coordonnée sur y de la position souhaitée du port pour un zoom de 100% . (getter/setter)
+		 *
+		 * @param {number} [_y_] - Position sur y (en px). Si absent, la fonction devient un getter.
+		 * @param {boolean} [_redessine_=true] - Repositionne et retrace le flux.
+		 * @return {number} Position sur y (final).
+		*/
+		Y(_y_, _redessine_=true)
+		{
+			if(typeof(_y_) != 'undefined')
+			{
+				this.#position.Y = _y_;
+				if(_redessine_)
+					{
+						this.y=_y_*this.unite();
+						this.flux().redessine();
+					}
+			}
+			return this.#position.Y;
+		}
+		
+		
+		
+		// ---------------------------------------
+		/** Dans le cas où le port est attaché à un bloc, getter/setter du coté de ce bloc
+		 *
+		 * @param {number} [_b_] - Bord (1=droite, 2=bas, 3=gauche, 4=haut, et 0 si pas attaché)
+		 * @return {number} Bord attaché (final).
+		*/
+		bordParent(_b_)
+		{
+			if(typeof(_b_) != 'undefined')
+			{
+				this.#bordParent = _b_;
+				
+			}
+			if(this.#blocParent)
+				return this.#bordParent;
+			return 0;
+		}
+		
+		
 	//Graphiques *******************************
 	
 		
@@ -211,7 +318,8 @@ class Port extends ObjetGraphique
 			rectangle.graphics.setStrokeStyle(this.#epaisseurLigne);
 			rectangle.graphics.beginFill(this.#couleur);
 			rectangle.graphics.beginStroke('black');
-			rectangle.graphics.drawRect (-this.#taille/2*unit,-this.#taille/2*unit,this.#taille*unit,this.#taille*unit);
+			rectangle.graphics.drawRect (-this.#taille/2,-this.#taille/2,this.#taille,this.#taille);
+			// rectangle.graphics.drawRect (-this.#taille/2*unit,-this.#taille/2*unit,this.#taille*unit,this.#taille*unit);
 		this.addChild(rectangle);
 		
 		if(this.#sens)
@@ -219,19 +327,27 @@ class Port extends ObjetGraphique
 			var fleche = new createjs.Shape();
 				fleche.graphics.setStrokeStyle(this.#epaisseurLigne/2);
 				fleche.graphics.beginStroke('black');
-				fleche.graphics.moveTo(-this.#taille/3*unit,0);
-				fleche.graphics.lineTo(this.#taille/3*unit,0);
+				//fleche.graphics.moveTo(-this.#taille/3*unit,0);
+				fleche.graphics.moveTo(-this.#taille/3,0);
+				//fleche.graphics.lineTo(this.#taille/3*unit,0);
+				fleche.graphics.lineTo(this.#taille/3,0);
 			if(this.#sens=="out" || this.#sens=="double")
 			{
-				fleche.graphics.moveTo((this.#taille/3-this.#taille/4)*unit , -this.#taille/4*unit);
+				/*fleche.graphics.moveTo((this.#taille/3-this.#taille/4)*unit , -this.#taille/4*unit);
 				fleche.graphics.lineTo(this.#taille/3*unit,0);
-				fleche.graphics.lineTo((this.#taille/3-this.#taille/4)*unit , this.#taille/4*unit);
+				fleche.graphics.lineTo((this.#taille/3-this.#taille/4)*unit , this.#taille/4*unit);*/
+				fleche.graphics.moveTo((this.#taille/3-this.#taille/4) , -this.#taille/4);
+				fleche.graphics.lineTo(this.#taille/3,0);
+				fleche.graphics.lineTo((this.#taille/3-this.#taille/4) , this.#taille/4);
 			}
 			if(this.#sens=="in" || this.#sens=="double")
 			{
-				fleche.graphics.moveTo((-this.#taille/3+this.#taille/4)*unit , -this.#taille/4*unit);
+				/*fleche.graphics.moveTo((-this.#taille/3+this.#taille/4)*unit , -this.#taille/4*unit);
 				fleche.graphics.lineTo(-this.#taille/3*unit,0);
-				fleche.graphics.lineTo((-this.#taille/3+this.#taille/4)*unit , this.#taille/4*unit);
+				fleche.graphics.lineTo((-this.#taille/3+this.#taille/4)*unit , this.#taille/4*unit);*/
+				fleche.graphics.moveTo((-this.#taille/3+this.#taille/4) , -this.#taille/4);
+				fleche.graphics.lineTo(-this.#taille/3,0);
+				fleche.graphics.lineTo((-this.#taille/3+this.#taille/4) , this.#taille/4);
 			}
 			this.addChild(fleche);
 		}

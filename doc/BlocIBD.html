@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Bloc - Documentation</title>
+    <title>BlocIBD - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Bloc</h1>
+    <h1 class="page-title">BlocIBD</h1>
     
 
     
@@ -45,10 +45,10 @@
 <header>
     
         <h2>
-        Bloc
+        BlocIBD
         </h2>
         
-            <div class="class-description usertext">Classe représentant un bloc (générique)</div>
+            <div class="class-description usertext">Bloc pour diagrame IBD</div>
         
     
 </header>
@@ -63,7 +63,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Bloc"><span class="type-signature"></span>new Bloc<span class="signature">(_options_<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BlocIBD"><span class="type-signature"></span>new BlocIBD<span class="signature">(_options_<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -75,7 +75,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line9">line 9</a>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -181,7 +181,101 @@
 
             
 
-            <td class="description last">Liste des paramètres pour intialiser l'objet</td>
+            <td class="description last">Tableau de paramètres (facultatifs) qui initialisent l'objet.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nomInstance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Nom de l'instance (nom de l'objet. Ex : "MCC1")</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>classe</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Nom de la classe (quel type d'objet. Ex : "actionneur")</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -217,7 +311,7 @@
 
 
     <ul>
-        <li><a href="ObjetGraphique.html">ObjetGraphique</a></li>
+        <li><a href="Bloc.html">Bloc</a></li>
     </ul>
 
 
@@ -259,6 +353,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#blocParent">Bloc#blocParent</a>
+    </li></ul></dd>
     
 
     
@@ -337,6 +436,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#blocsEnfants">Bloc#blocsEnfants</a>
+    </li></ul></dd>
     
 
     
@@ -418,7 +522,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#cache">ObjetGraphique#cache</a>
+        <a href="Bloc.html#cache">Bloc#cache</a>
     </li></ul></dd>
     
 
@@ -499,6 +603,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#CADRE">Bloc#CADRE</a>
+    </li></ul></dd>
+    
 
     
 
@@ -555,6 +664,84 @@
 
         
             
+<h4 class="name" id="classe"><span class="type-signature">(private) </span>classe<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line32">line 32</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>""</li>
+        </ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Nom de classe de l'objet (exemple : actionneur)
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="couleur"><span class="type-signature">(private) </span>couleur<span class="type-signature"> :string</span></h4>
 
 
@@ -576,6 +763,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#couleur">Bloc#couleur</a>
+    </li></ul></dd>
     
 
     
@@ -654,6 +846,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#deplacable">Bloc#deplacable</a>
+    </li></ul></dd>
     
 
     
@@ -735,7 +932,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#diagramme">ObjetGraphique#diagramme</a>
+        <a href="Bloc.html#diagramme">Bloc#diagramme</a>
     </li></ul></dd>
     
 
@@ -816,6 +1013,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#ENTETE">Bloc#ENTETE</a>
+    </li></ul></dd>
+    
 
     
 
@@ -893,6 +1095,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#epaisseurLigneCadre">Bloc#epaisseurLigneCadre</a>
+    </li></ul></dd>
     
 
     
@@ -972,6 +1179,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#epaisseurLigneSeparations">Bloc#epaisseurLigneSeparations</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1049,6 +1261,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#hauteur">Bloc#hauteur</a>
+    </li></ul></dd>
     
 
     
@@ -1128,6 +1345,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#largeur">Bloc#largeur</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1206,6 +1428,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#marge">Bloc#marge</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1262,6 +1489,84 @@
 
         
             
+<h4 class="name" id="nomInstance"><span class="type-signature">(private) </span>nomInstance<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>""</li>
+        </ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Nom de l'instance de l'objet (exemple : moteur1)
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="offsetClic"><span class="type-signature">(private) </span>offsetClic<span class="type-signature"> :object</span></h4>
 
 
@@ -1283,6 +1588,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#offsetClic">Bloc#offsetClic</a>
+    </li></ul></dd>
     
 
     
@@ -1361,6 +1671,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#ports">Bloc#ports</a>
+    </li></ul></dd>
     
 
     
@@ -1442,7 +1757,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#position">ObjetGraphique#position</a>
+        <a href="Bloc.html#position">Bloc#position</a>
     </li></ul></dd>
     
 
@@ -1522,6 +1837,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#tailleTitre">Bloc#tailleTitre</a>
+    </li></ul></dd>
     
 
     
@@ -1603,7 +1923,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#tempsAnimation">ObjetGraphique#tempsAnimation</a>
+        <a href="Bloc.html#tempsAnimation">Bloc#tempsAnimation</a>
     </li></ul></dd>
     
 
@@ -1684,6 +2004,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#TEXT_TITRE">Bloc#TEXT_TITRE</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1751,7 +2076,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line32">line 32</a>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line39">line 39</a>
     </li></ul></dd>
     
 
@@ -1761,6 +2086,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#titre">Bloc#titre</a>
+    </li></ul></dd>
     
 
     
@@ -1796,7 +2126,7 @@
 
 
 <div class="description usertext">
-    Titre en entête du bloc
+    Titre à afficher sur le bloc. Si chaîne nulle (""), alors le titre est construit à partir du nom de l'instance et de la classe.
 </div>
 
 
@@ -1829,7 +2159,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line20">line 20</a>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -1842,7 +2172,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#TYPE">ObjetGraphique#TYPE</a>
+        <a href="Bloc.html#TYPE">Bloc#TYPE</a>
     </li></ul></dd>
     
 
@@ -1925,7 +2255,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#zoomLimite">ObjetGraphique#zoomLimite</a>
+        <a href="Bloc.html#zoomLimite">Bloc#zoomLimite</a>
     </li></ul></dd>
     
 
@@ -2015,6 +2345,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#ajouteBlocEnfant">Bloc#ajouteBlocEnfant</a>
+    </li></ul></dd>
     
 
     
@@ -2164,6 +2499,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#ajoutePort">Bloc#ajoutePort</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2289,285 +2629,6 @@
 
     
 
-    <h4 class="name" id="blocParent"><span class="type-signature"></span>blocParent<span class="signature">(_b_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Bloc.html">Bloc</a>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line555">line 555</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Bloc parent auquel est associé le bloc courant (Getter/Setter)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_b_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Bloc.html">Bloc</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Référence d'un bloc supposé enfant. Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Référence du bloc parent.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Bloc.html">Bloc</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="blocsEnfants"><span class="type-signature"></span>blocsEnfants<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line501">line 501</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Liste des blocs associés (qui se déplacent en même temps).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Liste de blocs.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="bloqueZoomCourant"><span class="type-signature"></span>bloqueZoomCourant<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
@@ -2593,7 +2654,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#bloqueZoomCourant">ObjetGraphique#bloqueZoomCourant</a>
+        <a href="Bloc.html#bloqueZoomCourant">Bloc#bloqueZoomCourant</a>
     </li></ul></dd>
     
 
@@ -2707,7 +2768,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#checkZoom">ObjetGraphique#checkZoom</a>
+        <a href="Bloc.html#checkZoom">Bloc#checkZoom</a>
     </li></ul></dd>
     
 
@@ -2774,7 +2835,7 @@
 
     
 
-    <h4 class="name" id="couleur"><span class="type-signature"></span>couleur<span class="signature">(_c_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="classe"><span class="type-signature"></span>classe<span class="signature">(_c_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -2786,7 +2847,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line303">line 303</a>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -2826,7 +2887,7 @@
 
 
 <div class="description usertext">
-    Couleur d'arriere plan du bloc. (getter/setter)
+    Nom de la classe du bloc. (getter/setter)
 </div>
 
 
@@ -2874,7 +2935,7 @@
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -2898,7 +2959,7 @@
                 </td>
             
 
-            <td class="description last">Couleur (format html). Si absent, la fonction devient un getter.</td>
+            <td class="description last">Nom de la classe.</td>
         </tr>
 
     
@@ -2963,7 +3024,7 @@
 
         
 <div class="param-desc">
-    Couleur (final).
+    Nom de la classe (final).
 </div>
 
 
@@ -2974,177 +3035,7 @@
     </dt>
     <dd>
         
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="deplacable"><span class="type-signature"></span>deplacable<span class="signature">(_d_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line339">line 339</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Indique si c'est déplacable (avec la souris) ou non.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_d_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Autorisation de déplacer (true) ou non (false). Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Autorisation (finale) de déplacer.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -3184,7 +3075,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#destroy">ObjetGraphique#destroy</a>
+        <a href="Bloc.html#destroy">Bloc#destroy</a>
     </li></ul></dd>
     
 
@@ -3276,7 +3167,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#dX">ObjetGraphique#dX</a>
+        <a href="Bloc.html#dX">Bloc#dX</a>
     </li></ul></dd>
     
 
@@ -3501,7 +3392,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#dY">ObjetGraphique#dY</a>
+        <a href="Bloc.html#dY">Bloc#dY</a>
     </li></ul></dd>
     
 
@@ -3724,6 +3615,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#elementDirectementEnDessous">Bloc#elementDirectementEnDessous</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3810,436 +3706,6 @@
 
     
 
-    <h4 class="name" id="epaisseurLigneCadre"><span class="type-signature"></span>epaisseurLigneCadre<span class="signature">(_e_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line247">line 247</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Epaisseur du contours du bloc. (getter/setter)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_e_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Epaisseur. Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>_redessine_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Redessine le bloc de zéro.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Epaisseur (final).
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="epaisseurLigneSeparations"><span class="type-signature"></span>epaisseurLigneSeparations<span class="signature">(_e_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line229">line 229</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Epaisseur de trait qui séparent les parties du bloc (ex : titre vs contenu). (getter/setter)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_e_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Epaisseur. Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>_redessine_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Redessine le bloc de zéro.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Epaisseur (final).
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="estDansLeBloc"><span class="type-signature"></span>estDansLeBloc<span class="signature">(_pos_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
@@ -4262,6 +3728,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#estDansLeBloc">Bloc#estDansLeBloc</a>
+    </li></ul></dd>
     
 
     
@@ -4432,6 +3903,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#fit">Bloc#fit</a>
+    </li></ul></dd>
     
 
     
@@ -4611,6 +4087,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#fitHauteur">Bloc#fitHauteur</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4788,6 +4269,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#fitLargeur">Bloc#fitLargeur</a>
+    </li></ul></dd>
     
 
     
@@ -4967,6 +4453,11 @@
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#getCoordBord">Bloc#getCoordBord</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5082,6 +4573,11 @@ this.getCoordBord(90) ; // renverra la coordonnées du point au milieu du bord i
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#getItemsMenuContextuel">Bloc#getItemsMenuContextuel</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5192,6 +4688,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#getPointMilieu">Bloc#getPointMilieu</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5278,436 +4779,6 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
-    <h4 class="name" id="hauteur"><span class="type-signature"></span>hauteur<span class="signature">(_h_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line284">line 284</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Hauteur du bloc, pour un zoom de 100%. (getter/setter)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_h_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Hauteur (en px). Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>_redessine_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Redessine le bloc de zéro.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Hauteur (final).
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="largeur"><span class="type-signature"></span>largeur<span class="signature">(_l_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line265">line 265</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Largeur du bloc, pour un zoom de 100%. (getter/setter)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_l_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Largeur (en px). Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>_redessine_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Redessine le bloc de zéro.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Largeur (final).
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="libereZoomCourant"><span class="type-signature"></span>libereZoomCourant<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
@@ -5733,7 +4804,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#libereZoomCourant">ObjetGraphique#libereZoomCourant</a>
+        <a href="Bloc.html#libereZoomCourant">Bloc#libereZoomCourant</a>
     </li></ul></dd>
     
 
@@ -5822,7 +4893,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
-    <h4 class="name" id="marge"><span class="type-signature"></span>marge<span class="signature">(_m_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="nomInstance"><span class="type-signature"></span>nomInstance<span class="signature">(_n_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -5834,7 +4905,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line321">line 321</a>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -5874,7 +4945,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
 
 <div class="description usertext">
-    Marge du bloc pour un zoom de 100% (équivalent à un padding en css). (getter/setter)
+    Nom de l'instance du bloc. (getter/setter)
 </div>
 
 
@@ -5916,13 +4987,13 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
         <tr>
             
-                <td class="name"><code>_m_</code></td>
+                <td class="name"><code>_n_</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -5946,7 +5017,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
                 </td>
             
 
-            <td class="description last">Marge (en px). Si absent, la fonction devient un getter.</td>
+            <td class="description last">Nom de l'instance.</td>
         </tr>
 
     
@@ -6011,7 +5082,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
         
 <div class="param-desc">
-    Marge (final).
+    Nom de l'instance (final).
 </div>
 
 
@@ -6022,7 +5093,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     </dt>
     <dd>
         
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -6059,6 +5130,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#ouvreMenuContextuel">Bloc#ouvreMenuContextuel</a>
+    </li></ul></dd>
     
 
     
@@ -6149,7 +5225,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#placeAu1erPlan">ObjetGraphique#placeAu1erPlan</a>
+        <a href="Bloc.html#placeAu1erPlan">Bloc#placeAu1erPlan</a>
     </li></ul></dd>
     
 
@@ -6216,430 +5292,6 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
-    <h4 class="name" id="ports"><span class="type-signature"></span>ports<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line514">line 514</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Liste des ports associés (qui se déplacent en même temps).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Liste de ports.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="position"><span class="type-signature"></span>position<span class="signature">(_p_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line362">line 362</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#position">ObjetGraphique#position</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Coordonnées de la position souhaitée du bloc, pour un zoom de 100%. Le point positionné est le milieu du bord supérieur (getter/setter).
-			Si setter : dans le cas où le bloc possède des blocs-enfants (à l'intérieur de lui), le déplacement du bloc se propage à tous ces enfants.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_p_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Couple de coordonnées. Si absent, la fonction devient un getter.
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Coordonnées du x, en px.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Coordonnées du y, en px.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>_redessine_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Redessine le bloc de zéro.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Coordonnées (finales) : {x:, y:}
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="PRESS"><span class="type-signature"></span>PRESS<span class="signature">(evt<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
@@ -6662,6 +5314,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#PRESS">Bloc#PRESS</a>
+    </li></ul></dd>
     
 
     
@@ -6810,6 +5467,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#PRESSMOVE">Bloc#PRESSMOVE</a>
+    </li></ul></dd>
     
 
     
@@ -6961,7 +5623,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#redessine">ObjetGraphique#redessine</a>
+        <a href="Bloc.html#redessine">Bloc#redessine</a>
     </li></ul></dd>
     
 
@@ -7120,6 +5782,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#redessineCadre">Bloc#redessineCadre</a>
+    </li></ul></dd>
+    
 
     
 
@@ -7275,6 +5942,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#redessineEntete">Bloc#redessineEntete</a>
+    </li></ul></dd>
     
 
     
@@ -7432,6 +6104,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#supprimeBlocEnfant">Bloc#supprimeBlocEnfant</a>
+    </li></ul></dd>
+    
 
     
 
@@ -7580,6 +6257,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
 
     
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#supprimePort">Bloc#supprimePort</a>
+    </li></ul></dd>
+    
 
     
 
@@ -7705,221 +6387,6 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
-    <h4 class="name" id="tailleTitre"><span class="type-signature"></span>tailleTitre<span class="signature">(_t_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line211">line 211</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    Taille de la police d'affichage du titre. (getter/setter)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>_t_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Taille de la police. Si absent, la fonction devient un getter.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>_redessine_</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
-
-            <td class="description last">Redessine le bloc de zéro.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Taille (final).
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="titre"><span class="type-signature"></span>titre<span class="signature">(_t_<span class="signature-attributes">opt</span>, _redessine_<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
@@ -7932,7 +6399,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_CLASS_Bloc.js.html">classes/CLASS_Bloc.js</a>, <a href="classes_CLASS_Bloc.js.html#line193">line 193</a>
+        <a href="classes_CLASS_BlocIBD.js.html">classes/CLASS_BlocIBD.js</a>, <a href="classes_CLASS_BlocIBD.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -7942,6 +6409,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#titre">Bloc#titre</a>
+    </li></ul></dd>
     
 
     
@@ -7972,7 +6444,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
 
 <div class="description usertext">
-    Titre du bloc. (getter/setter)
+    Titre à afficher en haut du bloc. (getter/setter)
+Attention : Dans le cas où le titre est une chaîne de caractère vide (""),
+alors, il sera automatiquement construit à partir de this.nomInstance() et this.classe() de la forme suivante :
+- Si classe() renvoie une chaîne vide : this.titre() renvoie this.nomInstance().
+- sinon, this.titre() renvoie une concaténation de this.nomInstance() et this.classe(), séparés par deux points ":"
 </div>
 
 
@@ -8044,7 +6520,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
                 </td>
             
 
-            <td class="description last">Titre que l'on souhaite affecter (setter). Si absent, la fonction devient un getter.</td>
+            <td class="description last">Le titre.</td>
         </tr>
 
     
@@ -8109,7 +6585,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
         
 <div class="param-desc">
-    Titre du bloc (final).
+    Le titre (final).
 </div>
 
 
@@ -8160,7 +6636,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#unite">ObjetGraphique#unite</a>
+        <a href="Bloc.html#unite">Bloc#unite</a>
     </li></ul></dd>
     
 
@@ -8272,6 +6748,11 @@ Chaque objet est de la forme {nom: , action: , icone :}
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Bloc.html#UNPRESS">Bloc#UNPRESS</a>
+    </li></ul></dd>
     
 
     
@@ -8423,7 +6904,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#X">ObjetGraphique#X</a>
+        <a href="Bloc.html#X">Bloc#X</a>
     </li></ul></dd>
     
 
@@ -8644,7 +7125,7 @@ Chaque objet est de la forme {nom: , action: , icone :}
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ObjetGraphique.html#Y">ObjetGraphique#Y</a>
+        <a href="Bloc.html#Y">Bloc#Y</a>
     </li></ul></dd>
     
 

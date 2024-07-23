@@ -1,4 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>classes/CLASS_Bloc.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
 
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bloc.html">Bloc</a><ul class='methods'><li data-type='method'><a href="Bloc.html#ajouteBlocEnfant">ajouteBlocEnfant</a></li><li data-type='method'><a href="Bloc.html#ajoutePort">ajoutePort</a></li><li data-type='method'><a href="Bloc.html#blocParent">blocParent</a></li><li data-type='method'><a href="Bloc.html#blocsEnfants">blocsEnfants</a></li><li data-type='method'><a href="Bloc.html#bloqueZoomCourant">bloqueZoomCourant</a></li><li data-type='method'><a href="Bloc.html#checkZoom">checkZoom</a></li><li data-type='method'><a href="Bloc.html#couleur">couleur</a></li><li data-type='method'><a href="Bloc.html#deplacable">deplacable</a></li><li data-type='method'><a href="Bloc.html#destroy">destroy</a></li><li data-type='method'><a href="Bloc.html#dX">dX</a></li><li data-type='method'><a href="Bloc.html#dY">dY</a></li><li data-type='method'><a href="Bloc.html#elementDirectementEnDessous">elementDirectementEnDessous</a></li><li data-type='method'><a href="Bloc.html#epaisseurLigneCadre">epaisseurLigneCadre</a></li><li data-type='method'><a href="Bloc.html#epaisseurLigneSeparations">epaisseurLigneSeparations</a></li><li data-type='method'><a href="Bloc.html#estDansLeBloc">estDansLeBloc</a></li><li data-type='method'><a href="Bloc.html#fit">fit</a></li><li data-type='method'><a href="Bloc.html#fitHauteur">fitHauteur</a></li><li data-type='method'><a href="Bloc.html#fitLargeur">fitLargeur</a></li><li data-type='method'><a href="Bloc.html#getCoordBord">getCoordBord</a></li><li data-type='method'><a href="Bloc.html#getItemsMenuContextuel">getItemsMenuContextuel</a></li><li data-type='method'><a href="Bloc.html#getPointMilieu">getPointMilieu</a></li><li data-type='method'><a href="Bloc.html#hauteur">hauteur</a></li><li data-type='method'><a href="Bloc.html#largeur">largeur</a></li><li data-type='method'><a href="Bloc.html#libereZoomCourant">libereZoomCourant</a></li><li data-type='method'><a href="Bloc.html#marge">marge</a></li><li data-type='method'><a href="Bloc.html#ouvreMenuContextuel">ouvreMenuContextuel</a></li><li data-type='method'><a href="Bloc.html#placeAu1erPlan">placeAu1erPlan</a></li><li data-type='method'><a href="Bloc.html#ports">ports</a></li><li data-type='method'><a href="Bloc.html#position">position</a></li><li data-type='method'><a href="Bloc.html#PRESS">PRESS</a></li><li data-type='method'><a href="Bloc.html#PRESSMOVE">PRESSMOVE</a></li><li data-type='method'><a href="Bloc.html#redessine">redessine</a></li><li data-type='method'><a href="Bloc.html#redessineCadre">redessineCadre</a></li><li data-type='method'><a href="Bloc.html#redessineEntete">redessineEntete</a></li><li data-type='method'><a href="Bloc.html#supprimeBlocEnfant">supprimeBlocEnfant</a></li><li data-type='method'><a href="Bloc.html#supprimePort">supprimePort</a></li><li data-type='method'><a href="Bloc.html#tailleTitre">tailleTitre</a></li><li data-type='method'><a href="Bloc.html#titre">titre</a></li><li data-type='method'><a href="Bloc.html#unite">unite</a></li><li data-type='method'><a href="Bloc.html#UNPRESS">UNPRESS</a></li><li data-type='method'><a href="Bloc.html#X">X</a></li><li data-type='method'><a href="Bloc.html#Y">Y</a></li></ul></li><li><a href="BlocIBD.html">BlocIBD</a><ul class='methods'><li data-type='method'><a href="BlocIBD.html#ajouteBlocEnfant">ajouteBlocEnfant</a></li><li data-type='method'><a href="BlocIBD.html#ajoutePort">ajoutePort</a></li><li data-type='method'><a href="BlocIBD.html#bloqueZoomCourant">bloqueZoomCourant</a></li><li data-type='method'><a href="BlocIBD.html#checkZoom">checkZoom</a></li><li data-type='method'><a href="BlocIBD.html#classe">classe</a></li><li data-type='method'><a href="BlocIBD.html#destroy">destroy</a></li><li data-type='method'><a href="BlocIBD.html#dX">dX</a></li><li data-type='method'><a href="BlocIBD.html#dY">dY</a></li><li data-type='method'><a href="BlocIBD.html#elementDirectementEnDessous">elementDirectementEnDessous</a></li><li data-type='method'><a href="BlocIBD.html#estDansLeBloc">estDansLeBloc</a></li><li data-type='method'><a href="BlocIBD.html#fit">fit</a></li><li data-type='method'><a href="BlocIBD.html#fitHauteur">fitHauteur</a></li><li data-type='method'><a href="BlocIBD.html#fitLargeur">fitLargeur</a></li><li data-type='method'><a href="BlocIBD.html#getCoordBord">getCoordBord</a></li><li data-type='method'><a href="BlocIBD.html#getItemsMenuContextuel">getItemsMenuContextuel</a></li><li data-type='method'><a href="BlocIBD.html#getPointMilieu">getPointMilieu</a></li><li data-type='method'><a href="BlocIBD.html#libereZoomCourant">libereZoomCourant</a></li><li data-type='method'><a href="BlocIBD.html#nomInstance">nomInstance</a></li><li data-type='method'><a href="BlocIBD.html#ouvreMenuContextuel">ouvreMenuContextuel</a></li><li data-type='method'><a href="BlocIBD.html#placeAu1erPlan">placeAu1erPlan</a></li><li data-type='method'><a href="BlocIBD.html#PRESS">PRESS</a></li><li data-type='method'><a href="BlocIBD.html#PRESSMOVE">PRESSMOVE</a></li><li data-type='method'><a href="BlocIBD.html#redessine">redessine</a></li><li data-type='method'><a href="BlocIBD.html#redessineCadre">redessineCadre</a></li><li data-type='method'><a href="BlocIBD.html#redessineEntete">redessineEntete</a></li><li data-type='method'><a href="BlocIBD.html#supprimeBlocEnfant">supprimeBlocEnfant</a></li><li data-type='method'><a href="BlocIBD.html#supprimePort">supprimePort</a></li><li data-type='method'><a href="BlocIBD.html#titre">titre</a></li><li data-type='method'><a href="BlocIBD.html#unite">unite</a></li><li data-type='method'><a href="BlocIBD.html#UNPRESS">UNPRESS</a></li><li data-type='method'><a href="BlocIBD.html#X">X</a></li><li data-type='method'><a href="BlocIBD.html#Y">Y</a></li></ul></li><li><a href="Flux.html">Flux</a><ul class='methods'><li data-type='method'><a href="Flux.html#bloqueZoomCourant">bloqueZoomCourant</a></li><li data-type='method'><a href="Flux.html#checkZoom">checkZoom</a></li><li data-type='method'><a href="Flux.html#couleur">couleur</a></li><li data-type='method'><a href="Flux.html#courbeBezier">courbeBezier</a></li><li data-type='method'><a href="Flux.html#destroy">destroy</a></li><li data-type='method'><a href="Flux.html#distancePointControleBezier">distancePointControleBezier</a></li><li data-type='method'><a href="Flux.html#dX">dX</a></li><li data-type='method'><a href="Flux.html#dY">dY</a></li><li data-type='method'><a href="Flux.html#epaisseur">epaisseur</a></li><li data-type='method'><a href="Flux.html#libereZoomCourant">libereZoomCourant</a></li><li data-type='method'><a href="Flux.html#longueurQueue">longueurQueue</a></li><li data-type='method'><a href="Flux.html#methode">methode</a></li><li data-type='method'><a href="Flux.html#pasBezier">pasBezier</a></li><li data-type='method'><a href="Flux.html#placeAu1erPlan">placeAu1erPlan</a></li><li data-type='method'><a href="Flux.html#poigneesLignes">poigneesLignes</a></li><li data-type='method'><a href="Flux.html#pointQueue1">pointQueue1</a></li><li data-type='method'><a href="Flux.html#pointQueue2">pointQueue2</a></li><li data-type='method'><a href="Flux.html#redessine">redessine</a></li><li data-type='method'><a href="Flux.html#resetBezier">resetBezier</a></li><li data-type='method'><a href="Flux.html#resetPointsLignesFromBezier">resetPointsLignesFromBezier</a></li><li data-type='method'><a href="Flux.html#sens">sens</a></li><li data-type='method'><a href="Flux.html#unite">unite</a></li><li data-type='method'><a href="Flux.html#X">X</a></li><li data-type='method'><a href="Flux.html#Y">Y</a></li></ul></li><li><a href="MenuContextuel.html">MenuContextuel</a><ul class='methods'><li data-type='method'><a href="MenuContextuel.html#bloqueZoomCourant">bloqueZoomCourant</a></li><li data-type='method'><a href="MenuContextuel.html#checkZoom">checkZoom</a></li><li data-type='method'><a href="MenuContextuel.html#destroy">destroy</a></li><li data-type='method'><a href="MenuContextuel.html#diametreIcone">diametreIcone</a></li><li data-type='method'><a href="MenuContextuel.html#dX">dX</a></li><li data-type='method'><a href="MenuContextuel.html#dY">dY</a></li><li data-type='method'><a href="MenuContextuel.html#libereZoomCourant">libereZoomCourant</a></li><li data-type='method'><a href="MenuContextuel.html#listeBoutons">listeBoutons</a></li><li data-type='method'><a href="MenuContextuel.html#placeAu1erPlan">placeAu1erPlan</a></li><li data-type='method'><a href="MenuContextuel.html#rayonPositionIcone">rayonPositionIcone</a></li><li data-type='method'><a href="MenuContextuel.html#redessine">redessine</a></li><li data-type='method'><a href="MenuContextuel.html#referme">referme</a></li><li data-type='method'><a href="MenuContextuel.html#tailleTexte">tailleTexte</a></li><li data-type='method'><a href="MenuContextuel.html#unite">unite</a></li><li data-type='method'><a href="MenuContextuel.html#X">X</a></li><li data-type='method'><a href="MenuContextuel.html#Y">Y</a></li></ul></li><li><a href="ObjetGraphique.html">ObjetGraphique</a><ul class='methods'><li data-type='method'><a href="ObjetGraphique.html#bloqueZoomCourant">bloqueZoomCourant</a></li><li data-type='method'><a href="ObjetGraphique.html#cache">cache</a></li><li data-type='method'><a href="ObjetGraphique.html#checkZoom">checkZoom</a></li><li data-type='method'><a href="ObjetGraphique.html#destroy">destroy</a></li><li data-type='method'><a href="ObjetGraphique.html#diagramme">diagramme</a></li><li data-type='method'><a href="ObjetGraphique.html#dX">dX</a></li><li data-type='method'><a href="ObjetGraphique.html#dY">dY</a></li><li data-type='method'><a href="ObjetGraphique.html#libereZoomCourant">libereZoomCourant</a></li><li data-type='method'><a href="ObjetGraphique.html#placeAu1erPlan">placeAu1erPlan</a></li><li data-type='method'><a href="ObjetGraphique.html#redessine">redessine</a></li><li data-type='method'><a href="ObjetGraphique.html#tempsAnimation">tempsAnimation</a></li><li data-type='method'><a href="ObjetGraphique.html#unite">unite</a></li><li data-type='method'><a href="ObjetGraphique.html#X">X</a></li><li data-type='method'><a href="ObjetGraphique.html#Y">Y</a></li><li data-type='method'><a href="ObjetGraphique.html#zoomLimite">zoomLimite</a></li></ul></li><li><a href="Port.html">Port</a><ul class='methods'><li data-type='method'><a href="Port.html#blocParent">blocParent</a></li><li data-type='method'><a href="Port.html#bloqueZoomCourant">bloqueZoomCourant</a></li><li data-type='method'><a href="Port.html#bordParent">bordParent</a></li><li data-type='method'><a href="Port.html#checkZoom">checkZoom</a></li><li data-type='method'><a href="Port.html#couleur">couleur</a></li><li data-type='method'><a href="Port.html#destroy">destroy</a></li><li data-type='method'><a href="Port.html#dX">dX</a></li><li data-type='method'><a href="Port.html#dY">dY</a></li><li data-type='method'><a href="Port.html#epaisseurLigne">epaisseurLigne</a></li><li data-type='method'><a href="Port.html#flux">flux</a></li><li data-type='method'><a href="Port.html#libereZoomCourant">libereZoomCourant</a></li><li data-type='method'><a href="Port.html#placeAu1erPlan">placeAu1erPlan</a></li><li data-type='method'><a href="Port.html#position">position</a></li><li data-type='method'><a href="Port.html#redessine">redessine</a></li><li data-type='method'><a href="Port.html#sens">sens</a></li><li data-type='method'><a href="Port.html#taille">taille</a></li><li data-type='method'><a href="Port.html#theta">theta</a></li><li data-type='method'><a href="Port.html#unite">unite</a></li><li data-type='method'><a href="Port.html#X">X</a></li><li data-type='method'><a href="Port.html#X">X</a></li><li data-type='method'><a href="Port.html#Y">Y</a></li><li data-type='method'><a href="Port.html#Y">Y</a></li></ul></li><li><a href="Position.html">Position</a><ul class='methods'><li data-type='method'><a href="Position.html#theta">theta</a></li><li data-type='method'><a href="Position.html#unite">unite</a></li><li data-type='method'><a href="Position.html#X">X</a></li><li data-type='method'><a href="Position.html#x">x</a></li><li data-type='method'><a href="Position.html#Y">Y</a></li><li data-type='method'><a href="Position.html#y">y</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#bloqueZoomLimite">bloqueZoomLimite</a></li><li><a href="global.html#ouvreBoiteGenereCode">ouvreBoiteGenereCode</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">classes/CLASS_Bloc.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
 
 
 //=================================================
@@ -370,7 +414,7 @@ class Bloc extends ObjetGraphique
 					{
 						var dx = _p_.X()-this.#position.X()
 						var dy = _p_.Y()-this.#position.Y()
-						for(var i=0;i<this.#blocsEnfants.length;i++)
+						for(var i=0;i&lt;this.#blocsEnfants.length;i++)
 						{
 							this.#blocsEnfants[i].dX(dx)
 							this.#blocsEnfants[i].dY(dy)
@@ -400,12 +444,12 @@ class Bloc extends ObjetGraphique
 			{
 				var dX = _X_-this.#position.X() ;
 				//Déplacement des ports 
-					for(var i=0;i<this.#ports.length;i++)
+					for(var i=0;i&lt;this.#ports.length;i++)
 					{
 						this.#ports[i].dX(dX)
 					}
 				//Déplacement des blocs enfants
-					for(var i=0;i<this.#blocsEnfants.length;i++)
+					for(var i=0;i&lt;this.#blocsEnfants.length;i++)
 					{
 						this.#blocsEnfants[i].dX(dX)
 					}
@@ -432,12 +476,12 @@ class Bloc extends ObjetGraphique
 			{
 				var dY = _Y_-this.#position.Y();
 				//Déplacement des portsdx = _x_-this.#position.x
-					for(var i=0;i<this.#ports.length;i++)
+					for(var i=0;i&lt;this.#ports.length;i++)
 					{
 						this.#ports[i].dY(dY)
 					}
 				//Déplacementn des blocs enfants
-					for(var i=0;i<this.#blocsEnfants.length;i++)
+					for(var i=0;i&lt;this.#blocsEnfants.length;i++)
 					{
 						this.#blocsEnfants[i].dY(dY)
 					}
@@ -597,12 +641,12 @@ class Bloc extends ObjetGraphique
 			this.parent.setChildIndex( this, this.parent.getNumChildren()-1);
 			
 			
-			for(var i=0;i< this.#ports.length;i++)
+			for(var i=0;i&lt; this.#ports.length;i++)
 			{
 				var flux = this.#ports[i].flux();
 				flux.placeAu1erPlan();
 			}
-			for(var i=0;i< this.#blocsEnfants.length;i++)
+			for(var i=0;i&lt; this.#blocsEnfants.length;i++)
 			{
 				var enfant = this.#blocsEnfants[i];
 				enfant.placeAu1erPlan();
@@ -630,7 +674,7 @@ class Bloc extends ObjetGraphique
 		{
 			var _X_ = _pos_.X();
 			var _Y_ = _pos_.Y();
-			return _X_>=this.X()-this.largeur()/2 && _X_<= this.X()+this.largeur()/2 && _Y_>=this.Y() && _Y_<=this.Y()+this.hauteur();
+			return _X_>=this.X()-this.largeur()/2 &amp;&amp; _X_&lt;= this.X()+this.largeur()/2 &amp;&amp; _Y_>=this.Y() &amp;&amp; _Y_&lt;=this.Y()+this.hauteur();
 		}
 		
 		
@@ -673,7 +717,7 @@ class Bloc extends ObjetGraphique
 		
 			// On cherche sur quel bord on est :
 			var a = _angle_%360; //  mod 2pi
-			if(a<0)
+			if(a&lt;0)
 				a+=360;
 		
 			//1 = droite, 2/ = bas, 3/ = gauche, 4/=haut;
@@ -681,11 +725,11 @@ class Bloc extends ObjetGraphique
 			var l = this.largeur();
 			var h = this.hauteur();
 			var demiAngleDroit = Math.atan2(h,l)*180/Math.PI;
-			if(a<=demiAngleDroit || a>=360-demiAngleDroit)
+			if(a&lt;=demiAngleDroit || a>=360-demiAngleDroit)
 				var direction = 1
-			else if(a>demiAngleDroit && a<=180-demiAngleDroit)
+			else if(a>demiAngleDroit &amp;&amp; a&lt;=180-demiAngleDroit)
 				var direction = 2
-			else if(a>180-demiAngleDroit && a<=180+demiAngleDroit)
+			else if(a>180-demiAngleDroit &amp;&amp; a&lt;=180+demiAngleDroit)
 				var direction = 3
 			else
 				var direction = 4
@@ -874,7 +918,7 @@ class Bloc extends ObjetGraphique
 	
 		updatePositionPorts()
 		{
-			for(var i=0; i<this.#ports.length; i++)
+			for(var i=0; i&lt;this.#ports.length; i++)
 			{
 				var port = this.#ports[i];
 				// A FINIR
@@ -951,7 +995,7 @@ class Bloc extends ObjetGraphique
 		*/
 		PRESSMOVE(evt)
 		{
-			if(this.#deplacable && evt.nativeEvent.buttons==1)
+			if(this.#deplacable &amp;&amp; evt.nativeEvent.buttons==1)
 			{
 				var u = this.unite();
 				this.X((evt.stageX+this.#offsetClic.x)/u)
@@ -992,3 +1036,28 @@ class Bloc extends ObjetGraphique
 
 
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Tue Jul 23 2024 09:08:29 GMT+0200 (heure d’été d’Europe centrale) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

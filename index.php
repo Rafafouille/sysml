@@ -20,6 +20,7 @@
 		
 		<!-- CLASSES -->
 		
+		<script type="text/javascript" src="/sources/JS/classes/CLASS_Position.js"></script>
 		<script type="text/javascript" src="/sources/JS/classes/CLASS_Diagramme.js"></script>
 		<script type="text/javascript" src="/sources/JS/classes/CLASS_IBD.js"></script>
 		<script type="text/javascript" src="/sources/JS/classes/CLASS_objetGraphique.js"></script>
@@ -27,6 +28,7 @@
 		<script type="text/javascript" src="/sources/JS/classes/CLASS_BlocIBD.js"></script>
 		<script type="text/javascript" src="/sources/JS/classes/CLASS_Port.js"></script>
 		<script type="text/javascript" src="/sources/JS/classes/CLASS_Flux.js"></script>
+		<script type="text/javascript" src="/sources/JS/classes/CLASS_MenuContextuel.js"></script>
 
 		
 		
@@ -40,10 +42,18 @@
     </head>
 
 	<body>
+		
+		<div id="menu">
+			<div class="bouton" onclick="ouvreBoiteGenereCode()">
+				Génere code
+			</div>
+		</div>
+		
+		
 		<h1>SysML</h1>
 
 		<div id="scene">
-			 <canvas id="canvas" width="800" height="500"></canvas>
+			 <canvas id="canvas" width="800" height="500" oncontextmenu="event.preventDefault();"></canvas>
 		</div>
 
 	</body>
@@ -54,6 +64,11 @@
 	
 	<?php
 	include_once("./sources/php/boites.php");
+	
+	if(isset($_GET['systeme']))
+	{
+		echo "<script type=\"text/javascript\" src=\"./systemes/".$_GET['systeme']."/init.js\"></script>";
+	}
 	?>
 	
 	

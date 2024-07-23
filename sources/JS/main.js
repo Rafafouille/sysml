@@ -19,27 +19,14 @@ SCENE.mouseMoveOutside = false;
 
 
 
-DIAGRAMME = new IBD("Teste","mon Systeme");
+const DIAGRAMME = new IBD("Teste","mon Systeme");
 
 SCENE.addChild(DIAGRAMME);
 SCENE.DIAGRAMME = DIAGRAMME;
 
 
 
-// DESSIN DU DIAGRAMME ==============================
 
-BLOC = ajouteBloc("blocs test1", "type test");
-BLOC.largeur(300);
-BLOC.hauteur(100);
-BLOC2 = ajouteBloc("blocs test2", "type test",{x:500, y:250});
-BLOC3 = ajouteBloc("blocs test3", "type test",{x:400, y:300});
-
-/*PORT = new Port(50,70)
-DIAGRAMME.CONTENU.addChild(PORT);*/
-
-FLUX = new Flux({x:100,y:100,theta:-180}, {x:500, y:200, theta:0},null, BLOC2)
-DIAGRAMME.CONTENU.addChild(FLUX);
-FLUX.sens("un",false);
 
 
 
@@ -76,6 +63,8 @@ SCENE.on("stagemousedown", function(evt)
 })
 
 
+
+
 //Souris (zoom)
 document.getElementById('canvas').addEventListener("wheel",function(evt)
 	{
@@ -92,8 +81,17 @@ document.getElementById('canvas').addEventListener("wheel",function(evt)
 		
 		DIAGRAMME.zoom(factor,true);
 		
+		// Affichage / Caché des objets
+		for(var i=0;i<DIAGRAMME.CONTENU.children.length; i++)
+		{
+			var elem = DIAGRAMME.CONTENU.children[i];
+			if(elem instanceof ObjetGraphique)
+				elem.checkZoom(DIAGRAMME.unite());
+		}
+		
 		
 	});
+	
 
 
 
