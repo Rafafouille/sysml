@@ -47,6 +47,9 @@
 			<div class="bouton" onclick="ouvreBoiteGenereCode()">
 				Génere code
 			</div>
+			<div class="bouton" onclick="ajouteBlocIBD({'nomInstance':'nouveau bloc','X':(-DIAGRAMME.CONTENU.x+$('#canvas').width()/2)/DIAGRAMME.unite(), 'Y':(-DIAGRAMME.CONTENU.y+$('#canvas').height()/2-100)/DIAGRAMME.unite(),'LARGEUR':100/DIAGRAMME.unite(), 'HAUTEUR':100/DIAGRAMME.unite()})">
+				Ajoute bloc
+			</div>
 		</div>
 		
 		

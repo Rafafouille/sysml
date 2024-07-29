@@ -48,6 +48,12 @@ class ObjetGraphique extends createjs.Container
 		* @type {Position} 
 		* @default Position nulle*/
 			#position = new Position();
+			
+		/** Dit si l'objet est en mode "sélectionné" ou no
+		* @private
+		* @type {boolean} 
+		* @default Position false*/
+			#estSelectionne = false ;
 		
 		
 		
@@ -98,6 +104,7 @@ class ObjetGraphique extends createjs.Container
 		// ---------------------------------------
 		/** Valeur du zoom en deça duquel l'objet sera invisible (Getter/Setter).
 		 * @param {number} [_z_] - Zoom limite. Si absent, la fonction sera considérée comme getter.
+		 * @param {boolean} [_redessine_=true] - Indique s'il faut redessiner l'objet ou non.
 		 * @return {number} Zoom limite (final).
 		*/
 		zoomLimite(_z_, _redessine_=true)
@@ -158,6 +165,49 @@ class ObjetGraphique extends createjs.Container
 			}
 			return this.#diagramme
 		}
+		
+		
+		
+		// ---------------------------------------
+		/** Dit si l'objet est sélectionné ou non (getter)
+		 * @return {boolean} Etat sélectionné ou non
+		*/
+		estSelectionne()
+		{
+			return this.#estSelectionne;
+		}
+		
+		
+		
+		// ---------------------------------------
+		/** Sélectionne l'objet
+		 * @param {boolean} [_redessine_=true] - Indique s'il faut redessiner l'objet ou non
+		*/
+		selectionne(_redessine_=true)
+		{
+			this.#estSelectionne = true;
+			if(_redessine_)
+				this.redessine();
+			return this.#estSelectionne 
+		}
+		
+		
+		
+		// ---------------------------------------
+		/** Dé-sélectionne l'objet
+		 * @param {boolean} [_redessine_=true] - Indique s'il faut redessiner l'objet ou non
+		*/
+		deselectionne(_redessine_=true)
+		{
+			this.#estSelectionne = false;
+			if(_redessine_)
+				this.redessine();
+			return this.#estSelectionne 
+		}
+		
+		
+		
+		
 		
 		
 		

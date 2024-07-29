@@ -717,9 +717,7 @@ class Bloc extends ObjetGraphique
 			this.#ports.splice(i,1)
 			_p_.blocParent(null);
 		}
-		
-		
-		
+		ajouteNouveauBloc
 		// ---------------------------------------
 		/** Place l'objet au z-index (presque) le plus grand. La fonction se propoge aux blocs-enfants (pour qu'il restent dessus).
 		*/
@@ -846,9 +844,10 @@ class Bloc extends ObjetGraphique
 		{
 			var tab = [];
 			
-			tab.push({nom:"Supprimer", action:function(){alert("Pas encore implémenté");}, icone:'./sources/images/bouton_suppr.png'});
-			tab.push({nom:"Bloquer zoom", action:this.bloqueZoomCourant.bind(this), icone:'./sources/images/bouton_bloque_zoom.png'});
-			tab.push({nom:"Libérer zoom", action:this.libereZoomCourant.bind(this), icone:'./sources/images/bouton_libere_zoom.png'});
+			tab.push({nom:"Supprimer", action:this.autoDetruit.bind(this), icone:'./sources/images/bouton_menu_supprime.png'});
+			tab.push({nom:"Insérer bloc", action:function(){var parent = this.parent.target(); ajouteBlocIBD({"classe":"nouveauBloc","X":parent.X(), "Y":parent.Y()+parent.HAUTEUR()*0.3});}, icone:'./sources/images/bouton_menu_nouveauBloc.png'});
+			tab.push({nom:"Zoom Limite", action:this.bloqueZoomCourant.bind(this), icone:'./sources/images/bouton_menu_blocVisible.png'});
+			tab.push({nom:"Toujours visible", action:this.libereZoomCourant.bind(this), icone:'./sources/images/bouton_menu_visible.png'});
 					
 			return tab;
 		}
@@ -861,7 +860,7 @@ class Bloc extends ObjetGraphique
 		*/
 		ouvreMenuContextuel(evt)
 		{
-			var menu = new MenuContextuel(this.getItemsMenuContextuel());
+			var menu = new MenuContextuel(this.getItemsMenuContextuel(),this);
 			menu.x = evt.stageX;
 			menu.y = evt.stageY;
 			this.stage.addChild(menu);
@@ -901,7 +900,24 @@ class Bloc extends ObjetGraphique
 		 
 		 
 		 
-		 
+		 // --------------------------------------
+		/* Fonction qui supprime l'objet. Les liens d'appartenance éventuels sont mis à jour.
+		 */
+		 autoDetruit()
+		 {
+		 	for(var i=0; i<this.#blocsEnfants.length; i++) // On va transferer (faire hériter) l'éventuelle paternité du bloc parent, aux blocs enfants du bloc supprimé
+		 	{
+		 		var enfant = this.#blocsEnfants[i];
+		 		if(this.#blocParent) // Si le blocqu'on supprime a lui-même un parent
+		 			this.#blocParent.ajouteBlocEnfant(enfant)
+		 		else
+		 			enfant.blocParent(null); // Sinon, on vire son parent
+		 			
+		 	}
+			if(this.#blocParent)
+				this.#blocParent.supprimeBlocEnfant(this) ; // On le désassocie de son parent
+		 	this.parent.removeChild(this);	// On le supprime du container createjs
+		 }
 		 
 		 
 		 
@@ -1032,8 +1048,16 @@ class Bloc extends ObjetGraphique
 				rectangle.shadow = new createjs.Shadow('#555', 4, 4, 5);
 		
 			var rectangleContour = new createjs.Shape();
-				rectangleContour.graphics.setStrokeStyle(this.#epaisseurLigneCadre);
-				rectangleContour.graphics.beginStroke('black');
+				if(this.estSelectionne())
+				{
+					rectangleContour.graphics.setStrokeStyle(this.#epaisseurLigneCadre*2);
+					rectangleContour.graphics.beginStroke('blue');
+				}
+				else
+				{
+					rectangleContour.graphics.setStrokeStyle(this.#epaisseurLigneCadre);
+					rectangleContour.graphics.beginStroke('black');	
+				}
 				rectangleContour.graphics.drawRect (-this.largeur()/2,0,this.largeur(),this.hauteur()+this.#marge);
 				
 			this.CADRE.addChild(rectangle);
@@ -1104,6 +1128,8 @@ class Bloc extends ObjetGraphique
 		 {
 			return "new Bloc"
 		 }
+		 
+		 
 	//Autre **********************************
 	
 	
@@ -1200,7 +1226,7 @@ class Bloc extends ObjetGraphique
 				if(elem) // S'il y a un élément en dessous
 				{
 					if(this.#blocParent) // S'il y a déjà un parent (potentiellement à remplacer)
-						this.#blocParent.supprimeBlocEnfant(this) // On le supprime...
+						this.#blocParent.supprimeBlocEnfant(this) // On le désassocie	...
 					elem.ajouteBlocEnfant(this); // ... puis on met ce nouveau parent
 				}
 				else // Si pas d'élément en dessous (vide)
@@ -1211,6 +1237,7 @@ class Bloc extends ObjetGraphique
 			}
 			else if(evt.nativeEvent.button==2)
 			{
+				this.selectionne();
 				this.ouvreMenuContextuel(evt);
 			}
 		}

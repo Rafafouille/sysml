@@ -17,23 +17,26 @@ class MenuContextuel extends ObjetGraphique
 		#listeBoutons = [];
 		#listeBoutonsGraphiques = [];
 		#tailleTexte = 12;
-		#rayonPositionIcone=100;
-		#diametreIcone=40;
+		#rayonPositionIcone=150;
+		#diametreIcone=60;
+		#target=null;
 		
 		
 		
 		
 	// ****************************************************
 	/** Constructeur
-	 * @param {string} [_titre_=""] - Titre à afficher sur le bloc
+	 * @param {array} _listeBoutons_ - Liste des boutons du menu
+	 * @param {ObjetGraphique} [_target_=null] - Liste des boutons du menu
+	 * @param {object} [_options_] - Options
 	*/
-		constructor(_listeBoutons_, _options_)
+		constructor(_listeBoutons_, _target_=null , _options_)
 		{
 			super(_options_);
 			
 			this.#listeBoutons = _listeBoutons_;
 			
-			
+			this.#target = _target_;
 			
 			this.redessine();
 			
@@ -123,6 +126,22 @@ class MenuContextuel extends ObjetGraphique
 			return this.#diametreIcone;
 		}
 		
+	
+		// ---------------------------------------
+		/** Element rattaché au menu (getter/setter)
+		 *
+		 * @param {ObjetGraphique} [_t_] - Référence à l'objet
+		 * @return {ObjetGraphique} Référence (final).
+		*/
+		target(_t_)
+		{
+			if(typeof(_t_) != 'undefined')
+			{
+				this.#target = _t_;
+			}
+			return this.#target;
+		}
+		
 		
 		
 		
@@ -137,9 +156,10 @@ class MenuContextuel extends ObjetGraphique
  			// Arriere plan
  			var circle = new createjs.Shape();
  				var ray = this.#rayonPositionIcone+this.#diametreIcone
-				circle.graphics.beginRadialGradientFill(["rgba(255,0,0,0.75)","rgba(255,0,0,0)"], [0, 1], 0, 0, ray/2, 0, 0, ray).drawCircle(0, 0, ray);
+				circle.graphics.beginRadialGradientFill(["rgba(255,255,255,0.75)","rgba(255,255,255,0)"], [0, 1], 0, 0, ray/2, 0, 0, ray).drawCircle(0, 0, ray);
 				//circle.alpha=0.01;
 				this.addChild(circle);
+				circle.on("click",function(){this.parent.referme()})
  			
  			
 			// Liste des objets
@@ -155,11 +175,14 @@ class MenuContextuel extends ObjetGraphique
 					bouton.cursor = "pointer" ;
 					bouton.on("click",b.action);
 					bouton.addEventListener("click",this.referme.bind(this));
+					bouton.on("mouseover",function(){this.children[0].shadow = new createjs.Shadow('#F00', 0, 0, 10);})
+					bouton.on("mouseout",function(){this.children[0].shadow = null;})
 					this.#listeBoutonsGraphiques.push(bouton);
 					
-				var icone = new createjs.Bitmap("./sources/images/bouton_menu.png");
-					icone.scaleX = 0.2;
-					icone.scaleY = 0.2;
+					
+				var icone = new createjs.Bitmap(b.icone);
+					icone.scaleX = this.#diametreIcone/200;
+					icone.scaleY = icone.scaleX ;
 					icone.x=-this.#diametreIcone/2;
 					icone.y=-this.#diametreIcone/2;
 					bouton.addChild(icone);
@@ -173,8 +196,8 @@ class MenuContextuel extends ObjetGraphique
 				this.addChild(bouton);
 				
 				// Animation
-				createjs.Tween.get(bouton).wait(100*i)
-					.to({ x: this.#rayonPositionIcone*Math.cos(Math.PI+(i+1)*dtheta), y: this.#rayonPositionIcone*Math.sin(Math.PI+(i+1)*dtheta), alpha:1 }, 200, createjs.Ease.getPowInOut(2));	
+				createjs.Tween.get(bouton).wait(50*i)
+					.to({ x: this.#rayonPositionIcone*Math.cos(Math.PI+(i+1)*dtheta), y: this.#rayonPositionIcone*Math.sin(Math.PI+(i+1)*dtheta), alpha:1 }, 100, createjs.Ease.getPowInOut(2));	
 			}
 			
 			
@@ -200,6 +223,7 @@ class MenuContextuel extends ObjetGraphique
 				createjs.Tween.get(boutonGraphique).wait(100*i)
 					.to({ x: 0, y: 0, alpha:0 }, 200, createjs.Ease.getPowInOut(2));	
 			}
+			this.#target.deselectionne();
 			setTimeout(this.destroy.bind(this), this.#listeBoutonsGraphiques.length*100, this);
 			
 		}
