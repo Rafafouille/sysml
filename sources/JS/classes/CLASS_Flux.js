@@ -13,18 +13,84 @@ class Flux extends ObjetGraphique
 	
 	//Membres **************************
 		//Infos
-		TYPE = "Flux"
+		/** Donne l'information du type d'objet
+		* @public
+		* @type {string}
+		* @default "FLUX"*/
+			TYPE = "Flux"
+
+		/** Objet (graphique) du port (extrémité) 1
+		* @public
+		* @type {Port}
+		* @default null*/
 		PORT1 = null;
+
+		/** Objet (graphique) du port (extrémité) 2
+		* @public
+		* @type {Port}
+		* @default null*/
 		PORT2 = null;
+
+		/** Objet (graphique) Contenant le tracé de la ligne
+		* @public
+		* @type {createjs.Container}
+		* @default null*/
 		LIGNE = null;
-		#sens = "in"; // "un" / "deux" / "double" / null
+
+		/** Orientation du flux. Peut être "un" / "deux" / "double" / null
+		* @private
+		* @type {string}
+		* @default "un"*/
+		#sens = "un"; //
+		
+		/** Epaisseur du trait
+		* @private
+		* @type {string}
+		* @default 3*/
 		#epaisseur = 3;
+
+		/** Couleur du trait
+		* @public
+		* @type {string}
+		* @default "#FF0000"*/
 		#couleur = "#FF0000";
-		#methode = "bezier_droit" ; // lineaire / bezier / bezier_droit
+
+		/** Méthode pour traver la ligne du port 1 vers le port 2. Peut être : "lineaire" / "bezier" / "bezier_droit"
+		* @private
+		* @type {string}
+		* @default "bezier_droit"*/
+		#methode = "bezier_droit" ;
+		 
+
+		/** Longueur de la ligne qui sort d'un port, avant de "tourner" (en px, pour un zoom de 100%)
+		* @private
+		* @type {number}
+		* @default "50"*/
 		#longueurQueue = 50;
+		 
+
+		/** Distance du point de contrôle pour la courbe de bézier, pour faire la tangente au port.
+		* @private
+		* @type {number}
+		* @default 100*/
 		#distancePointControleBezier = 100;
-		#pasBezier = 0.01 // Pas du paramètre t pour bezier ( 0 < t < 1)
+
+		/** Pas du paramètre t pour bezier ( 0 < t < 1). Cela revient à 1/(nombre de points).
+		* @private
+		* @type {number}
+		* @default 0.1*/
+		#pasBezier = 0.01 // 
+
+		/** Tableau contenant la liste des coordonnées de la courbe de bézier
+		* @private
+		* @type {array}
+		* @default []*/
 		#courbeBezier = []; // Liste des points 
+
+		/** Tableau contenant la liste des "poignées" des lignes, c'est à dire la liste des points "particuliers" où doit
+		* @private
+		* @type {array}
+		* @default []*/
 		#poigneesLignes = []; // Liste des points (de la forme {x:, y:, d:})
 		
 		
@@ -34,25 +100,86 @@ class Flux extends ObjetGraphique
 		
 	// ****************************************************
 	/** Constructeur
-	 * Les arguments vont par deux : _p1_ avec _bloc1_, et _p2_ avec _bloc2_.
+	 * Les arguments vont par deux : _p1_ avec _bloc1_, et _p2_ avec _bloc2_.<br/>
 	 * Si on ne donne que _p1_ (respctivement _p2_) _bloc1_=null (respectivement _bloc2_=null): le port 1 (resp.2) sera placé à la position _p1_ (resp._p2_) ;
 	 * Si on ne donne que _bloc1_ (resp._bloc2_) et _p1_=null (resp. _p2_= nuls) : le ports se mettra sur le bloc1, au plus prés du bloc2 (resp. sur le bloc2 au plus prés du bloc1) ;
-	 * Si on donne _p1_ et _bloc1_ (resp. _p2_ et _bloc2_), le ports se mettront sur le blocA, au plus prés de _p1_ (resp. sur le bloc2 au plus prés de _p2_).
+	 * Si on donne _p1_ et _bloc1_ (resp. _p2_ et _bloc2_), le ports se mettront sur le bloc1, au plus prés de _p1_ (resp. sur le bloc2 au plus prés de _p2_).
 	 *
-	 * @param {object} _p1_ - Position du départ (pour un zoom de 100%)
-	 * @param {number} _p1_.x - Coordonnées sur x du point de départ
-	 * @param {number} _p1_.y - Coordonnées sur y du point de départ
-	 * @param {object} _p2_ - Position d'arrivée (pour un zoom de 100%)
-	 * @param {number} _p2_.x - Coordonnées sur x du point d'arrivée
-	 * @param {number} _p2_.y - Coordonnées sur y du point d'arrivée
+	 * @param {Position} _p1_ - Position du départ
+	 * @param {Position} _p2_ - Position d'arrivée
 	 * @param {Bloc} [_bloc1_=null] - Bloc auquel rattacher le port de départ
 	 * @param {Bloc} [_bloc2_=null] - Bloc auquel rattacher le port d'arrivée
 	*/
-		constructor(_p1_,_p2_, _bloc1_=null, _bloc2_=null, _options_)
+		constructor(_p1_,_p2_, _bloc1_=null, _bloc2_=null, _options_=null)
 		{
 			super(_options_);
 			
+			// Chargement des paramètres -----------------
+			if(_options_ && typeof(_options_)=="object")
+				{
+					if("sens" in _options_)
+						this.#sens = _options_.sens ;
+					if("epaisseur" in _options_)
+						this.#epaisseur = _options_.epaisseur ;
+					if("couleur" in _options_)
+						this.#couleur = _options_.couleur ;
+					if("methode" in _options_)
+						this.#methode = _options_.methode ;
+					if("longueurQueue" in _options_)
+						this.#longueurQueue = _options_.longueurQueue ;
+					if("distancePointControleBezier" in _options_)
+						this.#distancePointControleBezier = _options_.distancePointControleBezier ;
+					if("pasBezier" in _options_)
+						this.#pasBezier = _options_.pasBezier ;
+				}
+
+
+
+
+
+
 			this.LIGNE = new createjs.Container();
+
+			if(!_p1_ && _bloc2_)
+				_p1_ = _bloc2_.getPointMilieu();
+			if(!_p2_ && _bloc1_)
+				_p2_ = _bloc1_.getPointMilieu();
+			
+
+			// Création des ports
+			this.PORT1 = new Port(_p1_, _bloc1_) ;
+			this.PORT2 = new Port(_p2_, _bloc2_) ;
+
+			this.PORT1.portJumeau(this.PORT2);
+			this.PORT2.portJumeau(this.PORT1);
+
+
+			// Choix du sens des ports
+			if(this.#sens=="un")
+			{
+				this.PORT1.sens("out",false);
+				this.PORT2.sens("in",false);
+			}
+			else if(this.#sens=="deux")
+			{
+				this.PORT1.sens("in",false);
+				this.PORT2.sens("out",false);
+			}
+			else if(this.#sens=="double")
+			{
+				this.PORT1.sens("double",false);
+				this.PORT2.sens("double",false);
+			}
+			else
+			{
+				this.PORT1.sens(null,false);
+				this.PORT2.sens(null,false);
+			}
+			
+
+
+
+			/*
 			
 			if(_bloc1_ && _p1_) // Si on donne les deux infos
 			{
@@ -120,6 +247,7 @@ class Flux extends ObjetGraphique
 					_bloc2_.ajoutePort(this.PORT2);
 				}
 			}
+				*/
 			
 			this.addChild(this.LIGNE);
 			this.addChild(this.PORT1);
@@ -396,7 +524,6 @@ class Flux extends ObjetGraphique
 			var tag = true; //<-- Pour faire les pts d'inflexion qu'un coup sur deux
 			for(var i=3;i<this.#courbeBezier.length; i++)
 			{
-				//console.log(this.#courbeBezier[i-2].X, this.#courbeBezier[i-2].Y, this.#courbeBezier[i-1].X, this.#courbeBezier[i-1].Y, this.#courbeBezier[i].X, this.#courbeBezier[i].Y);
 				var extremum = isExtremum(this.#courbeBezier[i-2].X, this.#courbeBezier[i-2].Y, this.#courbeBezier[i-1].X, this.#courbeBezier[i-1].Y, this.#courbeBezier[i].X, this.#courbeBezier[i].Y);
 				// Si on est une un extremum
 				if(extremum)
@@ -424,7 +551,47 @@ class Flux extends ObjetGraphique
 			
 			return this.#poigneesLignes;
 		}
-		
+
+
+
+		// --------------------------------------
+		/* Fonction qui renvoie un objet contenant les valeurs des parmètres de this
+		 *
+		 * @return {object}
+		 */
+		getListeParametres()
+		{
+			var tab= super.getListeParametres();
+			
+			tab.p1 = {"X":this.PORT1.X(), "Y":this.PORT1.Y(), "theta":this.PORT1.theta()}
+			tab.p2 = {"X":this.PORT2.X(), "Y":this.PORT2.Y(), "theta":this.PORT2.theta()}
+			tab.bloc1 = null ;
+				if(this.PORT1.blocParent())
+					tab.bloc1 = this.PORT1.blocParent().name
+			tab.bloc2 = null ;
+			if(this.PORT2.blocParent())
+				tab.bloc2 = this.PORT2.blocParent().name
+			tab.sens = this.sens();
+			tab.epaisseur = this.epaisseur();
+			tab.couleur = this.couleur();
+			tab.methode = this.methode();
+			tab.longueurQueue = this.longueurQueue();
+			tab.distancePointControleBezier = this.distancePointControleBezier();
+			tab.pasBezier = this.pasBezier();
+			
+			return tab;
+		}
+		 
+		 
+		// --------------------------------------
+		/* Fonction qui renvoie (sous forme de chaîne de caractère) le NOM de la fonction qui génère l'objet.
+		 * Va de paire avec this.getCommande().
+		 * @return {string} Le nom de la fonction.
+		 */
+		 getFonctionCommande()
+		 {
+			return "ajouteFlux"
+		 }
 		
 	//Graphiques *******************************
 	
@@ -434,19 +601,30 @@ class Flux extends ObjetGraphique
 		/** Redessine et replace tout le bloc, de zéro.
 		 * @param {boolean} [_update_=false] - Indique s'il faut mettre à jour la scène (stage).
 		*/
-	redessine(_update_)
+	redessine(_update_=false)
 	{
-		this.LIGNE.removeAllChildren();
-		
 		var unit = this.unite();
 		
 		this.PORT1.redessine();
 		this.PORT2.redessine();
 		
+		this.redessineLigne();
+		
+			
+		if(_update_)
+			this.stage.update();
+	}
+	
+
+	redessineLigne(_update_=false)
+	{
+		var unit = this.unite();
+
+		this.LIGNE.removeAllChildren();
+
 		// Point au bout de la queue :
 		var P1 = {X:this.PORT1.X()+this.#longueurQueue*Math.cos(this.PORT1.rotation*Math.PI/180),	Y:this.PORT1.Y()+this.#longueurQueue*Math.sin(this.PORT1.rotation*Math.PI/180)}
 		var P2 = {X:this.PORT2.X()+this.#longueurQueue*Math.cos(this.PORT2.rotation*Math.PI/180),	Y:this.PORT2.Y()+this.#longueurQueue*Math.sin(this.PORT2.rotation*Math.PI/180)}
-		
 		
 		var ligne = new createjs.Shape();
 		ligne.graphics.setStrokeStyle(this.#epaisseur);
@@ -495,11 +673,7 @@ class Flux extends ObjetGraphique
 		ligne.graphics.lineTo(this.PORT2.X()*unit, this.PORT2.Y()*unit);
 	
 		this.LIGNE.addChild(ligne);
-			
-		if(_update_)
-			this.stage.update();
 	}
-		
 	
 	//Autre **********************************
 	

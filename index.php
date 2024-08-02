@@ -50,6 +50,9 @@
 			<div class="bouton" onclick="ajouteBlocIBD({'nomInstance':'nouveau bloc','X':(-DIAGRAMME.CONTENU.x+$('#canvas').width()/2)/DIAGRAMME.unite(), 'Y':(-DIAGRAMME.CONTENU.y+$('#canvas').height()/2-100)/DIAGRAMME.unite(),'LARGEUR':100/DIAGRAMME.unite(), 'HAUTEUR':100/DIAGRAMME.unite()})">
 				Ajoute bloc
 			</div>
+			<div class="bouton" onclick="ajouteFlux(new Position( (-DIAGRAMME.CONTENU.x+$('#canvas').width()/3)/DIAGRAMME.unite(), (-DIAGRAMME.CONTENU.y+$('#canvas').height()/2)/DIAGRAMME.unite()) , new Position( (-DIAGRAMME.CONTENU.x+$('#canvas').width()/3*2)/DIAGRAMME.unite(), (-DIAGRAMME.CONTENU.y+$('#canvas').height()/2)/DIAGRAMME.unite(),180) )">
+				Ajoute flux
+			</div>
 		</div>
 		
 		

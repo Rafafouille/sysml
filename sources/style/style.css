@@ -10,6 +10,7 @@
 
 #menu .bouton
 {
+	float:right;
 	border:solid;
 	padding:5px;
 	border-radius : 5px;

@@ -163,7 +163,16 @@ class MenuContextuel extends ObjetGraphique
  			
  			
 			// Liste des objets
-			var dtheta = Math.PI/(this.#listeBoutons.length+1)
+			if(this.#listeBoutons.length>5)
+			{
+				var thetaMin = -0.5*Math.PI
+				var dtheta = 2*Math.PI/(this.#listeBoutons.length+1)
+			}
+			else
+			{
+				var thetaMin = -Math.PI
+				var dtheta = Math.PI/(this.#listeBoutons.length+1)
+			}
 			
 			for(var i=0; i<this.#listeBoutons.length; i++)
 			{
@@ -197,7 +206,7 @@ class MenuContextuel extends ObjetGraphique
 				
 				// Animation
 				createjs.Tween.get(bouton).wait(50*i)
-					.to({ x: this.#rayonPositionIcone*Math.cos(Math.PI+(i+1)*dtheta), y: this.#rayonPositionIcone*Math.sin(Math.PI+(i+1)*dtheta), alpha:1 }, 100, createjs.Ease.getPowInOut(2));	
+					.to({ x: this.#rayonPositionIcone*Math.cos(-thetaMin+(i+1)*dtheta), y: this.#rayonPositionIcone*Math.sin(-thetaMin+(i+1)*dtheta), alpha:1 }, 100, createjs.Ease.getPowInOut(2));	
 			}
 			
 			

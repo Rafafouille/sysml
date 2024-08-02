@@ -68,8 +68,10 @@ class ObjetGraphique extends createjs.Container
 			
 			//this.position = 
 			
+			this.name="element_"+String(this.id); // Nom de l'objet par défaut (potentiellement écrasé par l'option, voir plus bas)
+
 			// Prise en compte des paramètres
-			if(typeof(_options_)=="object")
+			if(_options_ && typeof(_options_)=="object")
 			{
 			 	if("zoomLimite" in _options_)
 			 		this.#zoomLimite = _options_.zoomLimite ;
@@ -83,11 +85,12 @@ class ObjetGraphique extends createjs.Container
 			 		this.#position = _options_.position ; 
 			 	if("position" in _options_)
 			 		this.#position = _options_.position ; 
+			 	if("name" in _options_)
+			 		this.name = _options_.name ; 
 			}
 			
 			
 			
-			this.name="element_"+String(this.id);
 			
 			
 		}
@@ -400,6 +403,7 @@ class ObjetGraphique extends createjs.Container
 		 getListeParametres()
 		 {
 		 	return {
+				"name":this.name,
 		 		"zoomLimite":this.#zoomLimite,
 		 		"cache" : this.#cache,
 		 		"tempsAnimation":this.#tempsAnimation,

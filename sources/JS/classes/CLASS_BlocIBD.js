@@ -190,6 +190,18 @@ class BlocIBD extends Bloc
 	
 	
 	//Evénement *******************************
+
+
+
+
+		// ---------------------------------------
+		/** Fonction appellée au moment du double-click de la souris
+		 * @param {event} [evt] - Événement qui vient d'avoir lieu
+		*/
+		DOUBLECLICK(evt)
+		{
+			ouvreBoiteEditeIBD(this);
+		}
 }
 
 

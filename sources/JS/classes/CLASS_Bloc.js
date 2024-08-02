@@ -249,6 +249,7 @@ class Bloc extends ObjetGraphique
 			this.on("mousedown", this.PRESS);
 			this.on("pressmove", this.PRESSMOVE);
 			this.on("click",this.UNPRESS);
+			this.on("dblclick",this.DOUBLECLICK)
 			//this.redessine(false);
 		}
 	
@@ -534,6 +535,7 @@ class Bloc extends ObjetGraphique
 					for(var i=0;i<this.#ports.length;i++)
 					{
 						this.#ports[i].dX(dX)
+						this.#ports[i].parent.redessineLigne()
 					}
 				//Déplacement des blocs enfants
 					for(var i=0;i<this.#blocsEnfants.length;i++)
@@ -566,6 +568,7 @@ class Bloc extends ObjetGraphique
 					for(var i=0;i<this.#ports.length;i++)
 					{
 						this.#ports[i].dY(dY)
+						this.#ports[i].parent.redessineLigne()
 					}
 				//Déplacementn des blocs enfants
 					for(var i=0;i<this.#blocsEnfants.length;i++)
@@ -759,7 +762,7 @@ class Bloc extends ObjetGraphique
 		{
 			var _X_ = _pos_.X();
 			var _Y_ = _pos_.Y();
-			return _X_>=this.X()-this.LARGEUR()/2 && _X_<= this.X()+this.LARGEUR()/2 && _Y_>=this.Y() && _Y_<=this.Y()+this.HAUTEUR();
+			return _X_>this.X()-this.LARGEUR()/2 && _X_< this.X()+this.LARGEUR()/2 && _Y_>this.Y() && _Y_<this.Y()+this.HAUTEUR();
 		}
 		
 		
@@ -823,7 +826,7 @@ class Bloc extends ObjetGraphique
 			if(direction==1)
 				return new Position(this.#LARGEUR/2 + this.X(),  this.#LARGEUR/2 * Math.tan(a*Math.PI/180)+ this.Y() + this.#HAUTEUR/2,  0);
 			else if(direction==2)
-				return new Position(this.#HAUTEUR/2 * Math.tan(a*Math.PI/180)+ this.X(), this.#HAUTEUR+ this.Y(), 90);
+				return new Position(this.#HAUTEUR/2 / Math.tan(a*Math.PI/180)+ this.X(), this.#HAUTEUR+ this.Y(), 90);
 			else if(direction==3)
 				return new Position(-this.#LARGEUR/2+ this.X(),   -this.#LARGEUR/2 * Math.tan(a*Math.PI/180)+ this.Y() + this.#HAUTEUR/2,   180);
 			else if(direction==4)
@@ -845,6 +848,7 @@ class Bloc extends ObjetGraphique
 			var tab = [];
 			
 			tab.push({nom:"Supprimer", action:this.autoDetruit.bind(this), icone:'./sources/images/bouton_menu_supprime.png'});
+			tab.push({nom:"Éditer bloc", action:this.DOUBLECLICK.bind(this), icone:'./sources/images/bouton_menu_editeBloc.png'});
 			tab.push({nom:"Insérer bloc", action:function(){var parent = this.parent.target(); ajouteBlocIBD({"classe":"nouveauBloc","X":parent.X(), "Y":parent.Y()+parent.HAUTEUR()*0.3});}, icone:'./sources/images/bouton_menu_nouveauBloc.png'});
 			tab.push({nom:"Zoom Limite", action:this.bloqueZoomCourant.bind(this), icone:'./sources/images/bouton_menu_blocVisible.png'});
 			tab.push({nom:"Toujours visible", action:this.libereZoomCourant.bind(this), icone:'./sources/images/bouton_menu_visible.png'});
@@ -1130,6 +1134,61 @@ class Bloc extends ObjetGraphique
 		 }
 		 
 		 
+		 
+		// --------------------------------------
+		/* Donne la distance d'un point à l'un des bords du bloc.
+		 * @param {Position} _pos_ - Point à partir duquel on mesure.
+		 * @return {number} Distance (en px).
+		 */
+		getDistanceFromBords(_pos_)
+		{
+			if(this.estDansLeBloc(_pos_))
+			{
+				return Math.min(
+					Math.abs(_pos_.Y()-this.Y()),
+					Math.abs(_pos_.Y()-(this.Y()+this.HAUTEUR())),
+					Math.abs(_pos_.X()-(this.X()+this.LARGEUR()/2)),
+					Math.abs(_pos_.X()-(this.X()-this.LARGEUR()/2))
+				);
+			}
+			else // Si on est hors du bloc
+			{
+				if(_pos_.Y() >= this.Y() && _pos_.Y() <= this.Y()+this.HAUTEUR())
+				{
+					return Math.min(
+						Math.abs(_pos_.X()-(this.X()+this.LARGEUR()/2)) ,
+						Math.abs(_pos_.X()-(this.X()-this.LARGEUR()/2))
+					)
+				}
+				else if(_pos_.X() >= this.X()-this.LARGEUR()/2 && _pos_.X() <= this.X()+this.LARGEUR()/2)
+				{
+					return Math.min(
+						Math.abs(_pos_.Y()-this.Y()) ,
+						Math.abs(_pos_.Y()-(this.Y()+this.HAUTEUR()))
+					)
+				}
+				else if(_pos_.X() > this.X()+this.LARGEUR()/2 && _pos_.Y()<this.Y())
+				{
+					return Math.sqrt(Math.pow(_pos_.X()-(this.X()+this.LARGEUR()/2),2)+Math.pow(_pos_.Y()-this.Y(),2))
+				}
+				else if(_pos_.X() > this.X()+this.LARGEUR()/2 && _pos_.Y()>this.Y()+this.HAUTEUR())
+				{
+					return Math.sqrt(Math.pow(_pos_.X()-(this.X()+this.LARGEUR()/2),2)+Math.pow(_pos_.Y()-(this.Y()+this.HAUTEUR()),2))
+				}
+				else if(_pos_.X() < this.X()-this.LARGEUR()/2 && _pos_.Y()>this.Y()+this.HAUTEUR())
+				{
+					return Math.sqrt(Math.pow(_pos_.X()-(this.X()-this.LARGEUR()/2),2)+Math.pow(_pos_.Y()-(this.Y()+this.HAUTEUR()),2))
+				}
+				else if(_pos_.X() < this.X()-this.LARGEUR()/2 && _pos_.Y()<this.Y())
+				{
+					return Math.sqrt(Math.pow(_pos_.X()-(this.X()-this.LARGEUR()/2),2)+Math.pow(_pos_.Y()-this.Y(),2))
+				}
+				return Math.sqrt(Math.pow(_pos_.X()-this.X(),2)+Math.pow(_pos_.Y()-(this.Y()+this.HAUTEUR()/2),2))
+			}
+		}
+
+
+		 
 	//Autre **********************************
 	
 	
@@ -1170,7 +1229,7 @@ class Bloc extends ObjetGraphique
 				// Si on agrandit par la DROITE (inclut diagonales)
 				if(evt.target == this.BORD_DROIT || evt.target == this.COIN_HAUT_DROIT || evt.target == this.COIN_BAS_DROIT) // Si on clique sur le BORD GAUCHE ----
 				{
-					if(this.#LARGEURInit + (evt.stageX-this.#posInitClic.x) / u >20)
+					if(this.#LARGEURInit*u + (evt.stageX-this.#posInitClic.x) >20) //if(this.#LARGEURInit + (evt.stageX-this.#posInitClic.x) / u >20)
 					{
 						this.X(((evt.stageX+this.#posInitClic.x)/2+this.#offsetClic.x)/u)
 						this.LARGEUR(this.#LARGEURInit + (evt.stageX-this.#posInitClic.x)/u);
@@ -1179,7 +1238,7 @@ class Bloc extends ObjetGraphique
 				// Si on agrandit par la GAUCHE (inclut diagonales)
 				if(evt.target == this.BORD_GAUCHE || evt.target == this.COIN_HAUT_GAUCHE || evt.target == this.COIN_BAS_GAUCHE) // Si on clique sur le BORD GAUCHE ----
 				{
-					if(this.#LARGEURInit - (evt.stageX-this.#posInitClic.x)/u > 20)
+					if(this.#LARGEURInit*u - (evt.stageX-this.#posInitClic.x) > 20)//if(this.#LARGEURInit - (evt.stageX-this.#posInitClic.x)/u > 20)
 					{
 						this.X(((evt.stageX+this.#posInitClic.x)/2+this.#offsetClic.x)/u)
 						this.LARGEUR(this.#LARGEURInit - (evt.stageX-this.#posInitClic.x)/u);
@@ -1188,7 +1247,7 @@ class Bloc extends ObjetGraphique
 				// Si on agrandit par le HAUT (inclut diagonales)
 				if(evt.target == this.BORD_HAUT || evt.target == this.COIN_HAUT_DROIT || evt.target == this.COIN_HAUT_GAUCHE) // Si on clique sur le BORD GAUCHE ----
 				{
-					if(this.#HAUTEURInit - (evt.stageY-this.#posInitClic.y)/u > 40)
+					if(this.#HAUTEURInit*u - (evt.stageY-this.#posInitClic.y) > 40) //if(this.#HAUTEURInit - (evt.stageY-this.#posInitClic.y)/u > 40)
 					{
 						this.Y((evt.stageY+this.#offsetClic.y)/u)
 						this.HAUTEUR(this.#HAUTEURInit - (evt.stageY-this.#posInitClic.y)/u);
@@ -1197,7 +1256,7 @@ class Bloc extends ObjetGraphique
 				// Si on agrandit par le BAS (inclut diagonales)
 				if(evt.target == this.BORD_BAS || evt.target == this.COIN_BAS_DROIT || evt.target == this.COIN_BAS_GAUCHE) // Si on clique sur le BORD GAUCHE ----
 				{
-					if(this.#HAUTEURInit + (evt.stageY-this.#posInitClic.y)/u > 40)
+					if(this.#HAUTEURInit*u + (evt.stageY-this.#posInitClic.y) > 40)//if(this.#HAUTEURInit + (evt.stageY-this.#posInitClic.y)/u > 40)
 					{
 						//Y ne bouge pas
 						this.HAUTEUR(this.#HAUTEURInit + (evt.stageY-this.#posInitClic.y)/u);
@@ -1240,6 +1299,17 @@ class Bloc extends ObjetGraphique
 				this.selectionne();
 				this.ouvreMenuContextuel(evt);
 			}
+		}
+
+
+
+		// ---------------------------------------
+		/** Fonction appellée au moment du double-click de la souris
+		 * @param {event} [evt] - Événement qui vient d'avoir lieu
+		*/
+		DOUBLECLICK(evt)
+		{
+			console.log("pas encore codé pour un block abstrait");
 		}
 		
 		
