@@ -59,7 +59,7 @@ class Flux extends ObjetGraphique
 		* @private
 		* @type {string}
 		* @default "bezier_droit"*/
-		#methode = "bezier_droit" ;
+		#methode = "bezier" ;
 		 
 
 		/** Longueur de la ligne qui sort d'un port, avant de "tourner" (en px, pour un zoom de 100%)
@@ -92,6 +92,24 @@ class Flux extends ObjetGraphique
 		* @type {array}
 		* @default []*/
 		#poigneesLignes = []; // Liste des points (de la forme {x:, y:, d:})
+
+		/** Largeur (diamètre) de la bande sélectionnable pas la souris, autour de la ligne
+		* @private
+		* @type {number}
+		* @default 20*/
+		#largeurSelectionnable = 20;
+
+		/** Période (en pixel) des tirets d'animation
+		* @private
+		* @type {number}
+		* @default 100*/
+		#periodeTiretsAnimation = 100;
+
+		/** Dit si on affiche l'animation du flux ou pas
+		* @private
+		* @type {boolean}
+		* @default true*/
+		#anime = true;
 		
 		
 		
@@ -484,6 +502,63 @@ class Flux extends ObjetGraphique
 		
 		
 		// ---------------------------------------
+		/** Largeur (diamètre) de la zone sélectionnable (Getter/Setter)
+		 * @param {number} [_l_] - La largeur
+		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
+		 * @return {number} La largeur (final).
+		*/
+		largeurSelectionnable(_l_, _redessine_=true)
+		{
+			if(typeof(_l_) != 'undefined')
+			{
+				this.#largeurSelectionnable = _l_;
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#largeurSelectionnable;
+		}
+		
+		
+		
+		// ---------------------------------------
+		/** Période (en pixel) des tirets d'animation (Getter/setter)
+		 * @param {number} [_p_] - Période (en px)
+		 * @param {boolean} [_redessine_=true] - Redessine le flux de zéro.
+		 * @return {number} Période (final).
+		*/
+		periodeTiretsAnimation(_p_, _redessine_=true)
+		{
+			if(typeof(_p_) != 'undefined')
+			{
+				this.#periodeTiretsAnimation = _p_;
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#periodeTiretsAnimation;
+		}
+		
+		
+		
+		// ---------------------------------------
+		/** Indique s'il faut afficher l'animation ou pas(Getter/setter)
+		 * @param {boolean} [_a_] - Autorisation d'afficher l'animation
+		 * @param {boolean} [_redessine_=true] - Redessine le flux de zéro.
+		 * @return {number} Autorsiation (finale) d'afficher l'animation.
+		*/
+		anime(_a_, _redessine_=true)
+		{
+			if(typeof(_a_) != 'undefined')
+			{
+				this.#anime = _a_;
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#anime;
+		}
+
+
+		
+		// ---------------------------------------
 		/** (re)Calcule la liste des points de la courbe de bezier, pour un zoom de 100%.
 		 * @return {array} liste des points [ {X:, Y:}, {X:, Y:}, ...]
 		*/
@@ -626,12 +701,44 @@ class Flux extends ObjetGraphique
 		var P1 = {X:this.PORT1.X()+this.#longueurQueue*Math.cos(this.PORT1.rotation*Math.PI/180),	Y:this.PORT1.Y()+this.#longueurQueue*Math.sin(this.PORT1.rotation*Math.PI/180)}
 		var P2 = {X:this.PORT2.X()+this.#longueurQueue*Math.cos(this.PORT2.rotation*Math.PI/180),	Y:this.PORT2.Y()+this.#longueurQueue*Math.sin(this.PORT2.rotation*Math.PI/180)}
 		
-		var ligne = new createjs.Shape();
+
+		// Ligne "visible"
+		var ligne = new createjs.Shape(); // Ligne principale
 		ligne.graphics.setStrokeStyle(this.#epaisseur);
 		ligne.graphics.beginStroke(this.#couleur);
-		
+
+		// Ligne Invisible (pour la sélection avec la souris)
+		var ligneSelect = new createjs.Shape(); // Ligne invisible large pour être capté par la souris
+		ligneSelect.graphics.setStrokeStyle(this.#largeurSelectionnable);
+		ligneSelect.graphics.beginStroke("green");
+		ligneSelect.alpha=(0.01)
+
+		// Ligne en pointillet (animation)
+		var ligneDashed = new createjs.Shape(); // Ligne principale
+		if(!this.#sens || !this.#anime)
+			ligneDashed.visible=false;
+		ligneDashed.graphics.setStrokeStyle(this.#epaisseur*2);
+		ligneDashed.graphics.beginStroke(this.#couleur);
+		ligneDashed.graphics.setStrokeDash([this.#epaisseur*2,this.#periodeTiretsAnimation-this.#epaisseur*2]); // Ca fait des petits carrés
+		var blurFilter = new createjs.BlurFilter(20, 20, 1);
+		ligneDashed.filters = [blurFilter];
+ 		
+
+		if(this.#sens=="un" || this.#sens=="double")
+			createjs.Tween.get( ligneDashed.graphics._strokeDash,{loop:true}).to({offset:-this.#periodeTiretsAnimation},500)
+		if(this.#sens=="deux")
+			createjs.Tween.get( ligneDashed.graphics._strokeDash,{loop:true}).to({offset:this.#periodeTiretsAnimation},500)
+
+
+
 		ligne.graphics.moveTo(this.PORT1.X()*unit, this.PORT1.Y()*unit);
 		ligne.graphics.lineTo(P1.X*unit, P1.Y*unit);
+		ligneSelect.graphics.moveTo(this.PORT1.X()*unit, this.PORT1.Y()*unit);
+		ligneSelect.graphics.lineTo(P1.X*unit, P1.Y*unit);
+		ligneDashed.graphics.moveTo(this.PORT1.X()*unit, this.PORT1.Y()*unit);
+		ligneDashed.graphics.lineTo(P1.X*unit, P1.Y*unit);
+
+
 		
 		if(this.#methode=="lineaire") // LINEAIRE ==================
 		{
@@ -644,6 +751,8 @@ class Flux extends ObjetGraphique
 			{
 				var P = courbe[i];
 				ligne.graphics.lineTo(P.X*unit, P.Y*unit);
+				ligneSelect.graphics.lineTo(P.X*unit, P.Y*unit);
+				ligneDashed.graphics.lineTo(P.X*unit, P.Y*unit);
 			}
 			
 		}
@@ -663,16 +772,40 @@ class Flux extends ObjetGraphique
 					P.Y = PE.Y;
 					
 				ligne.graphics.lineTo(P.X*unit, P.Y*unit);
+				ligneSelect.graphics.lineTo(P.X*unit, P.Y*unit);
+				ligneDashed.graphics.lineTo(P.X*unit, P.Y*unit);
 					P.Y = PE.Y;
 					P.X = PE.X;
 				ligne.graphics.lineTo(P.X*unit, P.Y*unit);
+				ligneSelect.graphics.lineTo(P.X*unit, P.Y*unit);
+				ligneDashed.graphics.lineTo(P.X*unit, P.Y*unit);
 			}
 		}
 		
 		ligne.graphics.lineTo(P2.X*unit, P2.Y*unit);
 		ligne.graphics.lineTo(this.PORT2.X()*unit, this.PORT2.Y()*unit);
+		ligneSelect.graphics.lineTo(P2.X*unit, P2.Y*unit);
+		ligneSelect.graphics.lineTo(this.PORT2.X()*unit, this.PORT2.Y()*unit);
+		ligneDashed.graphics.lineTo(P2.X*unit, P2.Y*unit);
+		ligneDashed.graphics.lineTo(this.PORT2.X()*unit, this.PORT2.Y()*unit);
+
 	
+		this.LIGNE.addChild(ligneSelect);
 		this.LIGNE.addChild(ligne);
+		this.LIGNE.addChild(ligneDashed);
+
+
+		// Cas du sens "double" => on fait un aller-retour pour l'animation
+		if(this.#sens=="double") // Sens double
+		{
+			var taille = ligneDashed.graphics._activeInstructions.length
+			console.log(ligneDashed.graphics._activeInstructions.length)
+			for(var i=0; i<taille-1; i++)
+			{
+				var P = ligneDashed.graphics._activeInstructions[taille-2-i];
+				ligneDashed.graphics.lineTo(P.x, P.y);
+			}
+		}
 	}
 	
 	//Autre **********************************
