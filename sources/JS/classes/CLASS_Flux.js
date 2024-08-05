@@ -70,10 +70,11 @@ class Flux extends ObjetGraphique
 		 
 
 		/** Distance du point de contrôle pour la courbe de bézier, pour faire la tangente au port.
+		 * Si -1, la valeur est automatiquement calculée à partir de la distance entre les points
 		* @private
 		* @type {number}
-		* @default 100*/
-		#distancePointControleBezier = 100;
+		* @default -1*/
+		#distancePointControleBezier = -1;
 
 		/** Pas du paramètre t pour bezier ( 0 < t < 1). Cela revient à 1/(nombre de points).
 		* @private
@@ -157,6 +158,7 @@ class Flux extends ObjetGraphique
 
 
 			this.LIGNE = new createjs.Container();
+			//this.LIGNE.cursor="crosshair"; <-- Cette ligne fait BUGGER à cause de la ligne en pointiller (animation). Du coup, elle est reporté dans la fonction redessineLigne
 
 			if(!_p1_ && _bloc2_)
 				_p1_ = _bloc2_.getPointMilieu();
@@ -195,81 +197,13 @@ class Flux extends ObjetGraphique
 			}
 			
 
-
-
-			/*
-			
-			if(_bloc1_ && _p1_) // Si on donne les deux infos
-			{
-				var centre1 = _bloc1_.getPointMilieu();
-				var angle = Math.atan2(_p1_.y - centre1.Y, _p1_.x - centre1.X)*180/Math.PI;
-				var P = _bloc1_.getCoordBord(angle);
-				this.PORT1 = new Port(P.X, P.Y, P.theta);
-				_bloc1_.ajoutePort(this.PORT1);
-			}
-			else if(_p1_ && !(_bloc1_)) // Si on ne donne que la position
-			{
-				this.PORT1 = new Port(_p1_.x, _p1_.y, _p1.theta);
-			}
-			else if(_bloc1_ && !(_p1_)) // Si on ne donne que le bloc...
-			{
-				if(_p2_) // ...et la position de l'autre point
-				{
-					var centre1 = _bloc1_.getPointMilieu();
-					var angle = Math.atan2(_p2_.y - centre1.Y, _p2_.x - centre1.X)*180/Math.PI;
-					var P = _bloc1_.getCoordBord(angle);
-					this.PORT1 = new Port(P.X, P.Y, P.theta);
-					_bloc1_.ajoutePort(this.PORT1);
-				}
-				else // ...et le bloc2
-				{
-					var centre1 = _bloc1_.getPointMilieu();
-					var centre2 = _bloc2_.getPointMilieu();
-					var angle = Math.atan2(centre2.Y - centre1.Y, centre2.X - centre1.X)*180/Math.PI;
-					var P = _bloc1_.getCoordBord(angle);
-					this.PORT1 = new Port(P.X, P.Y, P.theta);
-					_bloc1_.ajoutePort(this.PORT1);
-				}
-			}
-				
-				
-			if(_bloc2_ && _p2_)
-			{
-				var centre2 = _bloc2_.getPointMilieu();
-				var angle = Math.atan2(_p2_.y - centre2.Y, _p2_.x - centre2.X)*180/Math.PI;
-				var P = _bloc2_.getCoordBord(angle);
-				this.PORT2 = new Port(P.X, P.Y, P.theta);
-				_bloc2_.ajoutePort(this.PORT2);
-			}
-			else if(_p2_ && !(_bloc2_)) // Si on ne donne que la position
-			{
-				this.PORT2 = new Port(_p2_.x, _p2.y, _p2_.theta);
-			}
-			else if(_bloc2_ && !(_p2_)) // Si on ne donne que le bloc...
-			{
-				if(_p1_) // ...et la position de l'autre point
-				{
-					var centre2 = _bloc2_.getPointMilieu();
-					var angle = Math.atan2(_p1_.y - centre2.Y, _p1_.x - centre2.X)*180/Math.PI;
-					var P = _bloc2_.getCoordBord(angle);
-					this.PORT2 = new Port(P.X, P.Y, P.theta);
-					_bloc2_.ajoutePort(this.PORT2);
-				}
-				else // ...et le bloc1
-				{
-					var centre1 = _bloc1_.getPointMilieu();
-					var centre2 = _bloc2_.getPointMilieu();
-					var angle = Math.atan2(centre1.Y - centre2.Y, centre1.X - centre2.X)*180/Math.PI;
-					var P = _bloc2_.getCoordBord(angle);
-					this.PORT2 = new Port(P.X, P.Y, P.theta);
-					_bloc2_.ajoutePort(this.PORT2);
-				}
-			}
-				*/
 			
 			this.addChild(this.LIGNE);
 			this.addChild(this.PORT1);
 			this.addChild(this.PORT2);
+
+
+			//this.on("click",this.UNPRESS);<-- Cette ligne fait BUGGER à cause de la ligne en pointiller (animation). Du coup, elle est reporté dans la fonction redessineLigne
 			//this.sens("un");
 		}
 	
@@ -378,7 +312,8 @@ class Flux extends ObjetGraphique
 		
 		
 		// ---------------------------------------
-		/** Longueur du trait qui débute/fini le flux, dans le sens du port, pour un zoom de 100%.  (getter/setter)
+		/** Longueur du trait qui débute/fini le flux, dans le sens du port, pour un zoom de 100%.  (getter/setter).
+		 * Si la longueur est supérieure à 1/3 de la distance entre les ports, elle est réduite pour rester à 1/3
 		 * @param {number} [_l_] - Longueur (en px)
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} La longueur (final).
@@ -391,6 +326,8 @@ class Flux extends ObjetGraphique
 				if(_redessine_)
 					{this.redessine();}
 			}
+			if(this.#longueurQueue> this.distanceEntrePorts()/3)
+				return this.distanceEntrePorts()/3
 			return this.#longueurQueue;
 		}
 		
@@ -411,7 +348,27 @@ class Flux extends ObjetGraphique
 				if(_redessine_)
 					{this.redessine();}
 			}
+			if(this.#distancePointControleBezier<0)
+				return this.distanceEntrePorts()/3;
 			return this.#distancePointControleBezier;
+		}
+		
+		
+		
+		// ---------------------------------------
+		/** Renvoie la distance (en pixel) entre les deux ports. Si _distanceVraie_ est true, cela renverra la vrai distance, telle qu'affichée à l'écran.
+		 * Par défaut, c'est la distance dans le cas d'un zoom de 100% qui est renvoyée
+		 * @param {boolean} [_distanceVraie_=false] - Indique si on prend en comtpe le zoom ou non.
+		 * @return {number} La longueur entre les ports(final).
+		*/
+		distanceEntrePorts(_distanceVraie_=false)
+		{
+			var d = Math.sqrt(Math.pow(this.PORT1.X()-this.PORT2.X(),2)+Math.pow(this.PORT1.Y()-this.PORT2.Y(),2))
+			if(_distanceVraie_)
+			{
+				return d*this.unite()
+			}
+			return d
 		}
 		
 		
@@ -444,8 +401,8 @@ class Flux extends ObjetGraphique
 		pointQueue1()
 		{
 			return {
-				X:this.PORT1.X()+this.#longueurQueue*Math.cos(this.PORT1.rotation*Math.PI/180),
-				Y:this.PORT1.Y()+this.#longueurQueue*Math.sin(this.PORT1.rotation*Math.PI/180),
+				X:this.PORT1.X()+this.longueurQueue()*Math.cos(this.PORT1.rotation*Math.PI/180),
+				Y:this.PORT1.Y()+this.longueurQueue()*Math.sin(this.PORT1.rotation*Math.PI/180),
 				d:verticalOuHorizontal(this.PORT1.rotation)
 				};
 		}
@@ -459,8 +416,8 @@ class Flux extends ObjetGraphique
 		pointQueue2()
 		{
 			return {
-				X:this.PORT2.X()+this.#longueurQueue*Math.cos(this.PORT2.rotation*Math.PI/180),
-				Y:this.PORT2.Y()+this.#longueurQueue*Math.sin(this.PORT2.rotation*Math.PI/180),
+				X:this.PORT2.X()+this.longueurQueue()*Math.cos(this.PORT2.rotation*Math.PI/180),
+				Y:this.PORT2.Y()+this.longueurQueue()*Math.sin(this.PORT2.rotation*Math.PI/180),
 				d:verticalOuHorizontal(this.PORT2.rotation)
 				};
 		}
@@ -570,8 +527,8 @@ class Flux extends ObjetGraphique
 			this.#courbeBezier = [];
 
 			// Points de controle
-			var P1C = {X : P1.X+this.#distancePointControleBezier*Math.cos(this.PORT1.rotation*Math.PI/180), Y : P1.Y+this.#distancePointControleBezier*Math.sin(this.PORT1.rotation*Math.PI/180)}
-			var P2C = {X : P2.X+this.#distancePointControleBezier*Math.cos(this.PORT2.rotation*Math.PI/180), Y : P2.Y+this.#distancePointControleBezier*Math.sin(this.PORT2.rotation*Math.PI/180)}
+			var P1C = {X : P1.X+this.distancePointControleBezier()*Math.cos(this.PORT1.rotation*Math.PI/180), Y : P1.Y+this.distancePointControleBezier()*Math.sin(this.PORT1.rotation*Math.PI/180)}
+			var P2C = {X : P2.X+this.distancePointControleBezier()*Math.cos(this.PORT2.rotation*Math.PI/180), Y : P2.Y+this.distancePointControleBezier()*Math.sin(this.PORT2.rotation*Math.PI/180)}
 			for(var t=this.#pasBezier; t<1; t+=this.#pasBezier)
 			{
 				var XX = P1.X * Math.pow(1-t,3)   + P1C.X* 3*t*Math.pow(1-t,2)   + P2C.X* 3* t*t*(1-t)  + P2.X * t*t*t;
@@ -650,8 +607,8 @@ class Flux extends ObjetGraphique
 			tab.epaisseur = this.epaisseur();
 			tab.couleur = this.couleur();
 			tab.methode = this.methode();
-			tab.longueurQueue = this.longueurQueue();
-			tab.distancePointControleBezier = this.distancePointControleBezier();
+			tab.longueurQueue = this.#longueurQueue;
+			tab.distancePointControleBezier = this.#distancePointControleBezier;
 			tab.pasBezier = this.pasBezier();
 			
 			return tab;
@@ -698,8 +655,8 @@ class Flux extends ObjetGraphique
 		this.LIGNE.removeAllChildren();
 
 		// Point au bout de la queue :
-		var P1 = {X:this.PORT1.X()+this.#longueurQueue*Math.cos(this.PORT1.rotation*Math.PI/180),	Y:this.PORT1.Y()+this.#longueurQueue*Math.sin(this.PORT1.rotation*Math.PI/180)}
-		var P2 = {X:this.PORT2.X()+this.#longueurQueue*Math.cos(this.PORT2.rotation*Math.PI/180),	Y:this.PORT2.Y()+this.#longueurQueue*Math.sin(this.PORT2.rotation*Math.PI/180)}
+		var P1 = {X:this.PORT1.X()+this.longueurQueue()*Math.cos(this.PORT1.rotation*Math.PI/180),	Y:this.PORT1.Y()+this.longueurQueue()*Math.sin(this.PORT1.rotation*Math.PI/180)}
+		var P2 = {X:this.PORT2.X()+this.longueurQueue()*Math.cos(this.PORT2.rotation*Math.PI/180),	Y:this.PORT2.Y()+this.longueurQueue()*Math.sin(this.PORT2.rotation*Math.PI/180)}
 		
 
 		// Ligne "visible"
@@ -711,7 +668,9 @@ class Flux extends ObjetGraphique
 		var ligneSelect = new createjs.Shape(); // Ligne invisible large pour être capté par la souris
 		ligneSelect.graphics.setStrokeStyle(this.#largeurSelectionnable);
 		ligneSelect.graphics.beginStroke("green");
-		ligneSelect.alpha=(0.01)
+		ligneSelect.alpha=(0.1)
+		ligneSelect.cursor="crosshair"
+		ligneSelect.on("click",this.UNPRESS);
 
 		// Ligne en pointillet (animation)
 		var ligneDashed = new createjs.Shape(); // Ligne principale
@@ -720,8 +679,6 @@ class Flux extends ObjetGraphique
 		ligneDashed.graphics.setStrokeStyle(this.#epaisseur*2);
 		ligneDashed.graphics.beginStroke(this.#couleur);
 		ligneDashed.graphics.setStrokeDash([this.#epaisseur*2,this.#periodeTiretsAnimation-this.#epaisseur*2]); // Ca fait des petits carrés
-		var blurFilter = new createjs.BlurFilter(20, 20, 1);
-		ligneDashed.filters = [blurFilter];
  		
 
 		if(this.#sens=="un" || this.#sens=="double")
@@ -790,9 +747,9 @@ class Flux extends ObjetGraphique
 		ligneDashed.graphics.lineTo(this.PORT2.X()*unit, this.PORT2.Y()*unit);
 
 	
-		this.LIGNE.addChild(ligneSelect);
 		this.LIGNE.addChild(ligne);
 		this.LIGNE.addChild(ligneDashed);
+		this.LIGNE.addChild(ligneSelect);
 
 
 		// Cas du sens "double" => on fait un aller-retour pour l'animation
@@ -818,6 +775,24 @@ class Flux extends ObjetGraphique
 	
 	
 		
+		
+		// ---------------------------------------
+		/** Fonction appellée au moment du relâchement de la souris
+		 * @param {event} [evt] - Événement qui vient d'avoir lieu
+		*/
+		UNPRESS(evt)
+		{
+			
+			if(evt.nativeEvent.button==0)
+			{
+				
+			}
+			else if(evt.nativeEvent.button==2)
+			{
+				//this.selectionne();
+				this.ouvreMenuContextuel(evt);
+			}
+		}
 		
 }
 

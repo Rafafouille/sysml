@@ -205,11 +205,11 @@ class Bloc extends ObjetGraphique
 			var blurFilter = new createjs.BlurFilter(5, 5, 1);
 
 			this.BORD_DROIT = new createjs.Shape();
-				this.BORD_DROIT.alpha=0.01;
+				this.BORD_DROIT.alpha=0.5;
 				this.BORD_DROIT.cursor="ew-resize";
 				this.addChild(this.BORD_DROIT);
 			this.BORD_GAUCHE = new createjs.Shape();
-				this.BORD_GAUCHE.alpha=0.01;
+				this.BORD_GAUCHE.alpha=0.5;
 				this.BORD_GAUCHE.cursor="ew-resize";
 				this.addChild(this.BORD_GAUCHE);
 			this.BORD_HAUT = new createjs.Shape();
