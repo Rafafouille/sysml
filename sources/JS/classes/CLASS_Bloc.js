@@ -205,11 +205,11 @@ class Bloc extends ObjetGraphique
 			var blurFilter = new createjs.BlurFilter(5, 5, 1);
 
 			this.BORD_DROIT = new createjs.Shape();
-				this.BORD_DROIT.alpha=0.5;
+				this.BORD_DROIT.alpha=0.01;
 				this.BORD_DROIT.cursor="ew-resize";
 				this.addChild(this.BORD_DROIT);
 			this.BORD_GAUCHE = new createjs.Shape();
-				this.BORD_GAUCHE.alpha=0.5;
+				this.BORD_GAUCHE.alpha=0.01;
 				this.BORD_GAUCHE.cursor="ew-resize";
 				this.addChild(this.BORD_GAUCHE);
 			this.BORD_HAUT = new createjs.Shape();
@@ -849,7 +849,7 @@ class Bloc extends ObjetGraphique
 			
 			tab.push({nom:"Supprimer", action:this.autoDetruit.bind(this), icone:'./sources/images/bouton_menu_supprime.png'});
 			tab.push({nom:"Éditer bloc", action:this.DOUBLECLICK.bind(this), icone:'./sources/images/bouton_menu_editeBloc.png'});
-			tab.push({nom:"Insérer bloc", action:function(){var parent = this.parent.target(); ajouteBlocIBD({"classe":"nouveauBloc","X":parent.X(), "Y":parent.Y()+parent.HAUTEUR()*0.3});}, icone:'./sources/images/bouton_menu_nouveauBloc.png'});
+			tab.push({nom:"Insérer bloc", action:function(){var parent = this.parent.target(); ajouteBlocIBD({"classe":"nouveauBloc","X":parent.X(), "Y":parent.Y()+parent.HAUTEUR()*0.3, LARGEUR:100/this.unite(), HAUTEUR:100/this.unite()});}, icone:'./sources/images/bouton_menu_nouveauBloc.png'});
 			tab.push({nom:"Zoom Limite", action:this.bloqueZoomCourant.bind(this), icone:'./sources/images/bouton_menu_blocVisible.png'});
 			tab.push({nom:"Toujours visible", action:this.libereZoomCourant.bind(this), icone:'./sources/images/bouton_menu_visible.png'});
 					
@@ -925,6 +925,27 @@ class Bloc extends ObjetGraphique
 		 
 		 
 		 
+
+
+		// --------------------------------------
+		/* Fonction qui indique si l'objet est en dehors du canvas ou pas (fonction générique, peut être remplacée dans les fonctions filles)
+		 *
+		 * @return {boolean}
+		 */
+		estDansLaFenetre()
+		{
+			var xMin = this.x+DIAGRAMME.CONTENU.x - this.largeur()/2
+			var yMin = this.y+DIAGRAMME.CONTENU.y ;
+			var xMax = this.x+DIAGRAMME.CONTENU.x + this.largeur()/2 ;
+			var yMax = this.y+DIAGRAMME.CONTENU.y+this.hauteur() ;
+
+			if(xMax<0 || xMin > document.getElementById('canvas').width || yMax < 0 || yMin > document.getElementById('canvas').height )
+			{
+				return false
+			}
+			return true
+		}
+		   
 		 
 		
 	

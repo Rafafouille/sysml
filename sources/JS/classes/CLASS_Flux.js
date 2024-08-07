@@ -43,17 +43,17 @@ class Flux extends ObjetGraphique
 		* @default "un"*/
 		#sens = "un"; //
 		
-		/** Epaisseur du trait
+		/** Epaisseur du trait (null pour prendre l'épaisseur associée à la #nature (énergie, etc.))
 		* @private
 		* @type {string}
-		* @default 3*/
-		#epaisseur = 3;
+		* @default null*/
+		#epaisseur = null;
 
-		/** Couleur du trait
+		/** Couleur imposée du trait (null pour prendre la couleur associée à la #nature (énergie, etc.))
 		* @public
 		* @type {string}
-		* @default "#FF0000"*/
-		#couleur = "#FF0000";
+		* @default null*/
+		#couleur = null;
 
 		/** Méthode pour traver la ligne du port 1 vers le port 2. Peut être : "lineaire" / "bezier" / "bezier_droit"
 		* @private
@@ -111,8 +111,23 @@ class Flux extends ObjetGraphique
 		* @type {boolean}
 		* @default true*/
 		#anime = true;
+
+		/** Nature du flux ("energie" / "information" / "matiere")
+		* @private
+		* @type {string}
+		* @default "energie"*/
+		#nature = "energie";
 		
 		
+		/** Liste des paramètres graphiques en fonction de la nature.
+		* @private
+		* @type {string}
+		* @default "energie"*/
+		#parametresParNature = {
+							"energie" : {"couleur" : "#FF0000", "epaisseur":4},
+							"information" : {"couleur" : "#0000FF", "epaisseur":2},
+							"matiere" : {"couleur" : "#00AA00", "epaisseur":6}
+		}
 		
 		
 		
@@ -150,6 +165,12 @@ class Flux extends ObjetGraphique
 						this.#distancePointControleBezier = _options_.distancePointControleBezier ;
 					if("pasBezier" in _options_)
 						this.#pasBezier = _options_.pasBezier ;
+					if("largeurSelectionnable" in _options_)
+						this.#largeurSelectionnable = _options_.largeurSelectionnable ;
+					if("periodeTiretsAnimation" in _options_)
+						this.#periodeTiretsAnimation = _options_.periodeTiretsAnimation ;
+					if("anime" in _options_)
+						this.#anime = _options_.anime ;
 				}
 
 
@@ -167,8 +188,8 @@ class Flux extends ObjetGraphique
 			
 
 			// Création des ports
-			this.PORT1 = new Port(_p1_, _bloc1_) ;
-			this.PORT2 = new Port(_p2_, _bloc2_) ;
+			this.PORT1 = new Port(_p1_, _bloc1_,_options_.p1) ;
+			this.PORT2 = new Port(_p2_, _bloc2_,_options_.p2) ;
 
 			this.PORT1.portJumeau(this.PORT2);
 			this.PORT2.portJumeau(this.PORT1);
@@ -256,7 +277,7 @@ class Flux extends ObjetGraphique
 		
 		
 		// ---------------------------------------
-		/** Epaisseur de trait du flux. (getter/setter)
+		/** Epaisseur de trait du flux. (getter/setter) Si on affecte l'épaisseur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.)
 		 * @param {number} [_e_] - Epaisseur. Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} Epaisseur (final).
@@ -269,12 +290,14 @@ class Flux extends ObjetGraphique
 				if(_redessine_)
 					{this.redessine();}
 			}
-			return this.#epaisseur;
+			if(this.#epaisseur)
+				return this.#epaisseur;
+			return this.#parametresParNature[this.#nature].epaisseur
 		}
 		
 		
 		// ---------------------------------------
-		/** Couleur du trait du flux. (getter/setter)
+		/** Couleur du trait du flux. (getter/setter). Si on affecte la couleur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.)
 		 * @param {number} [_c_] - Couleur (format html). Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} Couleur (final).
@@ -287,7 +310,9 @@ class Flux extends ObjetGraphique
 				if(_redessine_)
 					{this.redessine();}
 			}
-			return this.#couleur;
+			if(this.#couleur)
+				return this.#couleur;
+			return this.#parametresParNature[this.#nature].couleur
 		}
 		
 		
@@ -513,6 +538,25 @@ class Flux extends ObjetGraphique
 			return this.#anime;
 		}
 
+		
+		
+		
+		// ---------------------------------------
+		/** Nature du flux (Getter/Setter)
+		 * @param {string} [_n_] - Nature ( "energie" / "matiere" / "information")
+		 * @param {boolean} [_redessine_=true] - Redessine le flux de zéro.
+		 * @return {string} Nature (finale)
+		*/
+		nature(_n_, _redessine_=true)
+		{
+			if(typeof(_n_) != 'undefined')
+			{
+				this.#nature = _n_;
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#nature;
+		}
 
 		
 		// ---------------------------------------
@@ -595,22 +639,25 @@ class Flux extends ObjetGraphique
 		{
 			var tab= super.getListeParametres();
 			
-			tab.p1 = {"X":this.PORT1.X(), "Y":this.PORT1.Y(), "theta":this.PORT1.theta()}
-			tab.p2 = {"X":this.PORT2.X(), "Y":this.PORT2.Y(), "theta":this.PORT2.theta()}
-			tab.bloc1 = null ;
-				if(this.PORT1.blocParent())
+			tab.p1 = this.PORT1.getListeParametres() ;
+			tab.p2 = this.PORT2.getListeParametres() ;
+			/*tab.bloc1 = null ;
+			if(this.PORT1.blocParent())
 					tab.bloc1 = this.PORT1.blocParent().name
 			tab.bloc2 = null ;
 			if(this.PORT2.blocParent())
-				tab.bloc2 = this.PORT2.blocParent().name
-			tab.sens = this.sens();
-			tab.epaisseur = this.epaisseur();
-			tab.couleur = this.couleur();
-			tab.methode = this.methode();
+				tab.bloc2 = this.PORT2.blocParent().name*/
+			tab.sens = this.#sens;
+			tab.epaisseur = this.#epaisseur;
+			tab.couleur = this.#couleur;
+			tab.methode = this.#methode;
 			tab.longueurQueue = this.#longueurQueue;
 			tab.distancePointControleBezier = this.#distancePointControleBezier;
-			tab.pasBezier = this.pasBezier();
-			
+			tab.pasBezier = this.#pasBezier;
+			tab.largeurSelectionnable = this.#largeurSelectionnable ;
+			tab.periodeTiretsAnimation = this.#periodeTiretsAnimation ;
+			tab.anime = this.#anime ;
+			tab.nature = this.#nature
 			return tab;
 		}
 		 
@@ -624,7 +671,83 @@ class Flux extends ObjetGraphique
 		 {
 			return "ajouteFlux"
 		 }
+
+
+
 		
+		
+		// ---------------------------------------
+		/** Crée une liste d'objets renfermant les infos de chaque bouton du menu contextuel.
+		 * Chaque objet est de la forme {nom: , action: , icone :}
+		 * 
+		 * @returns {Array} Liste des boutons de la forme {nom: , action: , icone :}
+		*/
+		getItemsMenuContextuel()
+		{
+			var tab = [];
+			
+			tab.push({nom:"Supprimer", action:this.autoDetruit.bind(this), icone:'./sources/images/bouton_menu_supprime.png'});
+			tab.push({nom:"Éditer flux", action:this.DOUBLECLICK.bind(this), icone:'./sources/images/bouton_menu_editeBloc.png'});
+			tab.push({nom:"Zoom Limite", action:this.bloqueZoomCourant.bind(this), icone:'./sources/images/bouton_menu_blocVisible.png'});
+			tab.push({nom:"Toujours visible", action:this.libereZoomCourant.bind(this), icone:'./sources/images/bouton_menu_visible.png'});
+					
+			return tab;
+		}
+
+
+		// ---------------------------------------
+		/** Fonction qui ouvre le menu contextuel
+		*/
+		ouvreMenuContextuel(evt)
+		{
+			var menu = new MenuContextuel(this.getItemsMenuContextuel(),this);
+			menu.x = evt.stageX;
+			menu.y = evt.stageY;
+			this.stage.addChild(menu);
+		}
+
+
+
+	
+
+
+		 // --------------------------------------
+		/* Fonction qui supprime l'objet.
+		 */
+		autoDetruit()
+		{
+			// On décroche les ports (s'ils sont accrochés)
+			this.PORT1.decrocheDuBloc()
+			this.PORT2.decrocheDuBloc()
+			
+			this.parent.removeChild(this);	// On le supprime du container createjs
+		}
+		
+		
+
+
+
+		// --------------------------------------
+		/* Fonction qui indique si l'objet est en dehors du canvas ou pas (fonction générique, peut être remplacée dans les fonctions filles)
+		 *
+		 * @return {boolean}
+		 */
+		estDansLaFenetre()
+		{
+			var xMin = Math.min(this.PORT1.x+DIAGRAMME.CONTENU.x-this.PORT1.taille()/2  ,  this.PORT2.x+DIAGRAMME.CONTENU.x-this.PORT2.taille()/2 )
+			var xMax = Math.max(this.PORT1.x+DIAGRAMME.CONTENU.x+this.PORT1.taille()/2  ,  this.PORT2.x+DIAGRAMME.CONTENU.x+this.PORT2.taille()/2 )
+			var yMin = Math.min(this.PORT1.y+DIAGRAMME.CONTENU.y-this.PORT1.taille()/2  ,  this.PORT2.y+DIAGRAMME.CONTENU.y-this.PORT2.taille()/2 )
+			var yMax = Math.max(this.PORT1.y+DIAGRAMME.CONTENU.y+this.PORT1.taille()/2  ,  this.PORT2.y+DIAGRAMME.CONTENU.y+this.PORT2.taille()/2 )
+
+			if(xMax<0 || xMin > document.getElementById('canvas').width || yMax < 0 || yMin > document.getElementById('canvas').height )
+				return false
+
+			return true
+		}
+		   
+		 
+
+
 	//Graphiques *******************************
 	
 		
@@ -661,24 +784,24 @@ class Flux extends ObjetGraphique
 
 		// Ligne "visible"
 		var ligne = new createjs.Shape(); // Ligne principale
-		ligne.graphics.setStrokeStyle(this.#epaisseur);
-		ligne.graphics.beginStroke(this.#couleur);
+		ligne.graphics.setStrokeStyle(this.epaisseur());
+		ligne.graphics.beginStroke(this.couleur());
 
 		// Ligne Invisible (pour la sélection avec la souris)
 		var ligneSelect = new createjs.Shape(); // Ligne invisible large pour être capté par la souris
 		ligneSelect.graphics.setStrokeStyle(this.#largeurSelectionnable);
 		ligneSelect.graphics.beginStroke("green");
-		ligneSelect.alpha=(0.1)
+		ligneSelect.alpha=(0.01)
 		ligneSelect.cursor="crosshair"
-		ligneSelect.on("click",this.UNPRESS);
+		ligneSelect.on("click",this.UNPRESS.bind(this));
 
 		// Ligne en pointillet (animation)
 		var ligneDashed = new createjs.Shape(); // Ligne principale
 		if(!this.#sens || !this.#anime)
 			ligneDashed.visible=false;
-		ligneDashed.graphics.setStrokeStyle(this.#epaisseur*2);
-		ligneDashed.graphics.beginStroke(this.#couleur);
-		ligneDashed.graphics.setStrokeDash([this.#epaisseur*2,this.#periodeTiretsAnimation-this.#epaisseur*2]); // Ca fait des petits carrés
+		ligneDashed.graphics.setStrokeStyle(this.epaisseur()*2);
+		ligneDashed.graphics.beginStroke(this.couleur());
+		ligneDashed.graphics.setStrokeDash([this.epaisseur()*2,this.#periodeTiretsAnimation-this.epaisseur()*2]); // Ca fait des petits carrés
  		
 
 		if(this.#sens=="un" || this.#sens=="double")
@@ -756,7 +879,6 @@ class Flux extends ObjetGraphique
 		if(this.#sens=="double") // Sens double
 		{
 			var taille = ligneDashed.graphics._activeInstructions.length
-			console.log(ligneDashed.graphics._activeInstructions.length)
 			for(var i=0; i<taille-1; i++)
 			{
 				var P = ligneDashed.graphics._activeInstructions[taille-2-i];
@@ -792,6 +914,20 @@ class Flux extends ObjetGraphique
 				//this.selectionne();
 				this.ouvreMenuContextuel(evt);
 			}
+		}
+
+
+
+		
+		
+		// ---------------------------------------
+		/** Fonction appellée au moment du relâchement de la souris
+		 * @param {event} [evt] - Événement qui vient d'avoir lieu
+		*/
+		DOUBLECLICK(evt)
+		{
+			
+// A FAIRE
 		}
 		
 }

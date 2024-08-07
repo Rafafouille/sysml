@@ -49,6 +49,8 @@ SCENE.on("stagemousedown", function(evt)
 		{
 			DIAGRAMME.CONTENU.x = evt.stageX + SCENE.mouseOffset.x;
 			DIAGRAMME.CONTENU.y = evt.stageY + SCENE.mouseOffset.y;
+
+			checkVisibiliteToutLeMonde();
 		})
 		
 		
@@ -86,7 +88,7 @@ document.getElementById('canvas').addEventListener("wheel",function(evt)
 		{
 			var elem = DIAGRAMME.CONTENU.children[i];
 			if(elem instanceof ObjetGraphique)
-				elem.checkZoom(DIAGRAMME.unite());
+				elem.checkVisibilite(DIAGRAMME.unite());
 		}
 		
 		

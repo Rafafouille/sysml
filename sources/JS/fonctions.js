@@ -23,9 +23,50 @@ ajouteBlocIBD = function(_options_)
 /** Crée un flux
  * @return {Flux} Référence du flux nouvellement créé.
 */
-ajouteFlux = function(_p1_, _p2_, _options_)
+ajouteFlux = function(_options_)
 {
-	var flux = new Flux(_p1_,_p2_)
+
+	// par défaut
+	var bloc1 = null
+	var bloc2 = null
+	var p1={'X':0, 'Y':0, 'theta':0}
+	var p2={'X':20, 'Y':0, 'theta':0}
+
+	// On récupère les options de position
+	if("p1" in _options_)
+	{
+		if("X" in _options_.p1)
+			p1.X=_options_.p1.X;
+		if("Y" in _options_.p1)
+			p1.Y=_options_.p1.Y;
+		if("theta" in _options_.p1)
+			p1.theta = _options_.p1.theta
+
+		if("blocParent" in _options_.p1 && _options_.p1.blocParent)
+		{
+			bloc1 = DIAGRAMME.CONTENU.getChildByName(_options_.p1.blocParent)
+		}
+	}
+
+	if("p2" in _options_)
+	{
+		if("X" in _options_.p2)
+			p2.X=_options_.p2.X;
+		if("Y" in _options_.p2)
+			p2.Y=_options_.p2.Y;
+		if("theta" in _options_.p2)
+			p2.theta = _options_.p2.theta
+
+		if("blocParent" in _options_.p2 && _options_.p2.blocParent)
+		{
+			bloc2 = DIAGRAMME.CONTENU.getChildByName(_options_.p2.blocParent)
+		}
+	}
+	var position1 = new Position(p1.X, p1.Y, p1.theta)
+	var position2 = new Position(p2.X, p2.Y, p2.theta)
+
+	
+	var flux = new Flux(position1, position2, bloc1, bloc2, _options_)
 	
 	DIAGRAMME.CONTENU.addChild(flux);
 	flux.redessine();
@@ -209,4 +250,19 @@ getBlocBordProche = function(_pos_)
 		}
 	}
 	return {"bloc":best, "dist":distBest*DIAGRAMME.unite()}
+}
+
+
+
+// ---------------------------------------
+/** Vérifie si chaque objet est censé être visible ou non (et déclenche l'appariation/la disparition le cas échéant)
+*/
+checkVisibiliteToutLeMonde = function()
+{
+	for(var i=0; i<DIAGRAMME.CONTENU.children.length; i++)
+	{
+		var elem = DIAGRAMME.CONTENU.children[i];
+		if(typeof elem.checkVisibilite === "function")
+			elem.checkVisibilite();
+	}
 }

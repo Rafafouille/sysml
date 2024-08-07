@@ -46,13 +46,13 @@ class ObjetGraphique extends createjs.Container
 		/** Position de l'objet, pour un zoom de 100%
 		* @private
 		* @type {Position} 
-		* @default Position nulle*/
+		* @default  nulle*/
 			#position = new Position();
 			
 		/** Dit si l'objet est en mode "sélectionné" ou no
 		* @private
 		* @type {boolean} 
-		* @default Position false*/
+		* @default  false*/
 			#estSelectionne = false ;
 		
 		
@@ -81,12 +81,16 @@ class ObjetGraphique extends createjs.Container
 			 		this.#cache = _options_.cache ;
 			 	if("tempsAnimation" in _options_)
 			 		this.#tempsAnimation = _options_.tempsAnimation ;
-			 	if("position" in _options_)
+			 	if("position" in _options_ && _options_.position instanceof Position)
 			 		this.#position = _options_.position ; 
-			 	if("position" in _options_)
-			 		this.#position = _options_.position ; 
+				if("X" in _options_)
+					this.#position.X(_options_.X);
+				if("Y" in _options_)
+					this.#position.X(_options_.Y);
+				if("theta" in _options_)
+					this.#position.X(_options_.theta);
 			 	if("name" in _options_)
-			 		this.name = _options_.name ; 
+			 		this.name = _options_.name ;
 			}
 			
 			
@@ -358,9 +362,11 @@ class ObjetGraphique extends createjs.Container
 		// ---------------------------------------
 		/** Fonction qui vérifie si l'élément est censé être affiché ou non.
 		*/
-		checkZoom(_zoom_)
+		checkVisibilite()
 		{
-			if(_zoom_<this.#zoomLimite) // si on zoom moins que la limite
+			var _zoom_ = DIAGRAMME.unite();
+
+			if(_zoom_<this.#zoomLimite || !this.estDansLaFenetre()) // si on zoom moins que la limite
 			{
 				if(!this.#cache)
 				{
@@ -423,6 +429,7 @@ class ObjetGraphique extends createjs.Container
 		 {
 			return "new ObjetGraphique"
 		 }
+
 		// --------------------------------------
 		/* Ecrit la commande à taper pour recréer l'objet
 		 *
@@ -431,6 +438,20 @@ class ObjetGraphique extends createjs.Container
 		 getCommande()
 		 {
 			return this.getFonctionCommande()+"("+JSON.stringify(this.getListeParametres())+")";
+		 }
+
+
+
+		// --------------------------------------
+		/* Fonction qui indique si l'objet est en dehors du canvas ou pas (fonction générique, peut être remplacée dans les fonctions filles)
+		 *
+		 * @return {boolean}
+		 */
+		 estDansLaFenetre()
+		 {
+			var XX = this.x+DIAGRAMME.CONTENU.x ;
+			var YY = this.y+DIAGRAMME.CONTENU.y ;
+			return XX>0 && YY>0 && XX < document.getElementById('canvas').width && YY < document.getElementById('canvas').height;
 		 }
 			
 	//Graphiques *******************************
@@ -452,7 +473,6 @@ class ObjetGraphique extends createjs.Container
 			if(_update_)
 				this.stage.update();
 		}
-	
 	
 	
 	//Autre **********************************

@@ -96,7 +96,7 @@ class Port extends ObjetGraphique
 	// ****************************************************
 	/** Constructeur
 	 * @param {Position} _pos_ - Position cible du port.
-	 * @param {Bloc} [_bloc_=null] - Bloc auquel on souhaite se rattaché. Si null, la position finale du port sera celle passée par _pos_. Sinon, _pos_ sera remplacé par une position du bord du _bloc_, au plus prés de _pos.
+	 * @param {Bloc} [_bloc_=null] - Bloc auquel on souhaite se rattaché. Si null, la position finale du port sera celle passée par _pos_. Sinon, _pos_ sera remplacé par une position du bord du _bloc_, au plus prés de _pos_.
 	 * @param {object} [_options_=null] - Options diverses
 	*/
 		constructor(_pos_, _bloc_=null , _options_=null)
@@ -114,6 +114,10 @@ class Port extends ObjetGraphique
 						this.#epaisseurLigne = _options_.epaisseurLigne ;
 					if("sens" in _options_)
 						this.#sens = _options_.sens ;
+					if("interieur" in _options_)
+						this.#interieur = _options_.interieur ;
+					if("distanceAccroche" in _options_)
+						this.distanceAccroche = _options_.distanceAccroche ;
 				}
 
 			this.#position = _pos_;
@@ -124,7 +128,7 @@ class Port extends ObjetGraphique
 				this.#blocParent = _bloc_; // On associe le bloc au port
 				_bloc_.ajoutePort(this); // et inversement
 
-				this.raccrocheAuBloc(_bloc_)
+				this.raccrocheAuBloc(_bloc_,false);
 			}
 
 			// Evenements souris
@@ -348,55 +352,6 @@ class Port extends ObjetGraphique
 		
 		
 		// ---------------------------------------
-		/* Coordonnée sur x de la position souhaitée du port pour un zoom de 100% . (getter/setter)
-		 *
-		 * @param {number} [_x_] - Position sur x (en px). Si absent, la fonction devient un getter.
-		 * @param {boolean} [_redessine_=true] - Repositionne et retrace le flux
-		 * @return {number} Position sur x (final).
-		*/
-		/*X(_x_, _redessine_=true)
-		{
-			if(typeof(_x_) != 'undefined')
-			{
-				this.#position.X(_x_);
-				if(_redessine_)
-					{
-						this.x=_x_*this.unite();
-						this.flux().redessine();
-					}
-			}
-			return this.#position.X();
-		}
-		
-		*/
-		
-		
-		
-		
-		// ---------------------------------------
-		/* Coordonnée sur y de la position souhaitée du port pour un zoom de 100% . (getter/setter)
-		 *
-		 * @param {number} [_y_] - Position sur y (en px). Si absent, la fonction devient un getter.
-		 * @param {boolean} [_redessine_=true] - Repositionne et retrace le flux.
-		 * @return {number} Position sur y (final).
-		*/
-		/*Y(_y_, _redessine_=true)
-		{
-			if(typeof(_y_) != 'undefined')
-			{
-				this.#position.Y(_y_);
-				if(_redessine_)
-					{
-						this.y=_y_*this.unite();
-						this.flux().redessine();
-					}
-			}
-			return this.#position.Y();
-		}
-		*/
-		
-		
-		// ---------------------------------------
 		/** Dans le cas où le port est attaché à un bloc, getter/setter du coté de ce bloc
 		 *
 		 * @param {number} [_b_] - Bord (1=droite, 2=bas, 3=gauche, 4=haut, et 0 si pas attaché)
@@ -511,6 +466,34 @@ class Port extends ObjetGraphique
 		}
 
 		
+
+
+		// --------------------------------------
+		/* Fonction qui renvoie un objet contenant les valeurs des parmètres de this
+		 *
+		 * @return {object}
+		 */
+		getListeParametres()
+		{
+			var tab= super.getListeParametres();
+			
+			tab.X = this.#position.X() ;
+			tab.Y = this.#position.Y() ;
+			tab.theta = this.#position.theta() ;
+			tab.taille = this.#taille ;
+			tab.couleur = this.#couleur ;
+			tab.epaisseurLigne = this.#epaisseurLigne ;
+			tab.sens = this.#sens = "out" ;
+			tab.interieur = this.#interieur ;
+			tab.blocParent = null;
+				if(this.#blocParent)
+					tab.blocParent = this.#blocParent.name
+			tab.distanceAccroche = this.#distanceAccroche ;
+
+			return tab;
+		}
+
+
 
 	//Graphiques *******************************
 	
