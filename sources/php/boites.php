@@ -64,12 +64,83 @@
 <script>
 	$("#boiteEditeBlocIBD").dialog({
 		autoOpen: false,
+		width: 400,
+		height: 400,
+		modal: true,
+		buttons: {
+			"Valider": function() {updateBlocIBDFromDialog();$( this ).dialog( "close" );},
+			"Annuler": function() {$( this ).dialog( "close" );}
+			},
+		show: {
+			effect: "blind",
+			duration: 100
+		      },
+		hide: {
+			effect: "blind",
+			duration: 100
+		      },
+	});
+</script>
+
+
+
+
+
+
+
+
+<!-- ================== BOITES EDITE INFOS FLUX ==================== -->
+<div id="boiteEditeFlux" title="Editer le flux">
+	<table>
+			<tr>
+				<td><lable for="BOITE_EDITE_FLUX_input_nature">Nature du flux:</label></td>
+				<td>
+					<select name="BOITE_EDITE_FLUX_input_nature" id="BOITE_EDITE_FLUX_input_nature">
+						<option value="aucun">Aucun</option>
+						<option value="energie">Énergie</option>
+						<option value="information">Information</option>
+						<option value="matiere">Matière</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><lable for="BOITE_EDITE_FLUX_input_nomInstance">Sens du flux:</label></td>
+				<td>
+					<select name="BOITE_EDITE_FLUX_input_sens" id="BOITE_EDITE_FLUX_input_sens">
+						<option value="aucun">Aucun</option>
+						<option value="un">Sens 1</option>
+						<option value="deux">Sens 2</option>
+						<option value="double">Double sens</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="BOITE_EDITE_FLUX_input_imposeCouleur" name="BOITE_EDITE_FLUX_input_imposeCouleur" />
+					<label for="BOITE_EDITE_FLUX_input_imposeCouleur"/>Couleur imposée</label>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="BOITE_EDITE_FLUX_input_imposeEpaisseur" name="BOITE_EDITE_FLUX_input_imposeEpaisseur" />
+					<label for="BOITE_EDITE_FLUX_input_imposeEpaisseur"/>Epaisseur imposée</label>
+				</td>
+				<td></td>
+			</tr>
+	</table>
+</div>
+
+
+<script>
+	$("#boiteEditeFlux").dialog({
+		autoOpen: false,
 		width: 800,
 		height: 400,
 		modal: true,
 		buttons: {
-			"Modifier": function() {updateBlocIBDFromDialog();$( this ).dialog( "close" );},
-			"Fermer": function() {$( this ).dialog( "close" );}
+			"Valider": function() {updateFluxFromDialog();$( this ).dialog( "close" );},
+			"Annuler": function() {$( this ).dialog( "close" );}
 			},
 		show: {
 			effect: "blind",

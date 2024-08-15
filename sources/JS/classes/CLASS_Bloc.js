@@ -849,7 +849,7 @@ class Bloc extends ObjetGraphique
 			
 			tab.push({nom:"Supprimer", action:this.autoDetruit.bind(this), icone:'./sources/images/bouton_menu_supprime.png'});
 			tab.push({nom:"Éditer bloc", action:this.DOUBLECLICK.bind(this), icone:'./sources/images/bouton_menu_editeBloc.png'});
-			tab.push({nom:"Insérer bloc", action:function(){var parent = this.parent.target(); ajouteBlocIBD({"classe":"nouveauBloc","X":parent.X(), "Y":parent.Y()+parent.HAUTEUR()*0.3, LARGEUR:100/this.unite(), HAUTEUR:100/this.unite()});}, icone:'./sources/images/bouton_menu_nouveauBloc.png'});
+			tab.push({nom:"Insérer bloc", action:function(){var parent = this.parent.target(); ajouteBlocIBD({"classe":"nouveauBloc","X":parent.X(), "Y":parent.Y()+parent.HAUTEUR()*0.3, LARGEUR:100/DIAGRAMME.unite(), HAUTEUR:100/DIAGRAMME.unite()});}, icone:'./sources/images/bouton_menu_nouveauBloc.png'});
 			tab.push({nom:"Zoom Limite", action:this.bloqueZoomCourant.bind(this), icone:'./sources/images/bouton_menu_blocVisible.png'});
 			tab.push({nom:"Toujours visible", action:this.libereZoomCourant.bind(this), icone:'./sources/images/bouton_menu_visible.png'});
 					

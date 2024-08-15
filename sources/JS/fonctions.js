@@ -206,6 +206,9 @@ ouvreBoiteEditeIBD = function(_obj_)
 	$("#boiteEditeBlocIBD").data("nomBloc",_obj_.name); // Stocke la donnée dans le code HTML (mais ou ?)
 	$("#boiteEditeBlocIBD").dialog("open");
 }
+
+
+
 		
 // ---------------------------------------
 /** Fonction qui récupère les données du formulaire "#boiteEditeBlocIBD" pour les mettre dans le blocIBD
@@ -222,6 +225,63 @@ updateBlocIBDFromDialog = function()
 	elem.HAUTEUR(Number($("#BOITE_EDITE_IBD_input_HAUTEUR").val()),false);
 	
 	elem.redessine();
+}
+
+
+		
+// ---------------------------------------
+/** Ouvre la boite de dialogue qui permet de modifier les infos du flux.
+ * @param {BlocIBD} _obj_ - Référence vers l'objet
+*/
+ouvreBoiteEditeFlux = function(_obj_)
+{
+	if(_obj_.sens())
+			$("#BOITE_EDITE_FLUX_input_sens").val(_obj_.sens());
+		else
+			$("#BOITE_EDITE_FLUX_input_sens").val("aucun");
+
+	if(_obj_.nature())
+			$("#BOITE_EDITE_FLUX_input_nature").val(_obj_.nature());
+		else
+			$("#BOITE_EDITE_FLUX_input_nature").val("aucun");
+
+	$( "#BOITE_EDITE_FLUX_input_imposeCouleur" ).prop( "checked", _obj_.couleurImposee());
+	$( "#BOITE_EDITE_FLUX_input_imposeEpaisseur" ).prop( "checked", _obj_.epaisseurImposee());
+
+	$("#boiteEditeFlux").data("nomBloc",_obj_.name); // Stocke la donnée dans le code HTML (mais ou ?)
+	$("#boiteEditeFlux").dialog("open")
+}
+
+
+		
+// ---------------------------------------
+/** Fonction qui récupère les données du formulaire "#boiteEditeFlux" pour les mettre dans le Flux
+*/
+updateFluxFromDialog = function()
+{
+	var flux = DIAGRAMME.CONTENU.getChildByName($("#boiteEditeFlux").data("nomBloc"));
+	
+	var nature = $("#BOITE_EDITE_FLUX_input_nature").val()
+	if(nature == "aucune")
+		flux.nature(null)
+	else
+		flux.nature(nature)
+
+	var sens = $("#BOITE_EDITE_FLUX_input_sens").val()
+		if(sens == "aucun")
+			flux.sens(null)
+		else
+			flux.sens(sens)
+	
+	if(!$('#BOITE_EDITE_FLUX_input_imposeCouleur').is(":checked"))
+		flux.couleur(null)
+	
+	if(!$('#BOITE_EDITE_FLUX_input_imposeEpaisseur').is(":checked"))
+		flux.epaisseur(null)
+
+	
+
+	flux.redessine();
 }
 
 

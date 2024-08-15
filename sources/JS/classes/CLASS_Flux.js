@@ -171,6 +171,8 @@ class Flux extends ObjetGraphique
 						this.#periodeTiretsAnimation = _options_.periodeTiretsAnimation ;
 					if("anime" in _options_)
 						this.#anime = _options_.anime ;
+					if("nature" in _options_)
+						this.#nature = _options_.nature ;
 				}
 
 
@@ -258,7 +260,7 @@ class Flux extends ObjetGraphique
 					this.PORT1.sens("in");
 					this.PORT2.sens("out");
 				}
-				else if(_s_="double")
+				else if(_s_=="double")
 				{
 					this.PORT1.sens("double");
 					this.PORT2.sens("double");
@@ -297,6 +299,16 @@ class Flux extends ObjetGraphique
 		
 		
 		// ---------------------------------------
+		/** Dit si l'épaisseur est imposée (true) ou non (false).
+		 * @return {boolean} Indication si imposé ou non.
+		*/
+		epaisseurImposee()
+		{
+			return Boolean(this.#epaisseur)
+		}
+
+
+		// ---------------------------------------
 		/** Couleur du trait du flux. (getter/setter). Si on affecte la couleur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.)
 		 * @param {number} [_c_] - Couleur (format html). Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
@@ -315,6 +327,17 @@ class Flux extends ObjetGraphique
 			return this.#parametresParNature[this.#nature].couleur
 		}
 		
+
+		
+		
+		// ---------------------------------------
+		/** Dit si la couleur est imposée (true) ou non (false).
+		 * @return {boolean} Indication si imposé ou non.
+		*/
+		couleurImposee()
+		{
+			return Boolean(this.#couleur)
+		}
 		
 		
 		// ---------------------------------------
@@ -794,6 +817,7 @@ class Flux extends ObjetGraphique
 		ligneSelect.alpha=(0.01)
 		ligneSelect.cursor="crosshair"
 		ligneSelect.on("click",this.UNPRESS.bind(this));
+		ligneSelect.on("dblclick",this.DOUBLECLICK.bind(this));
 
 		// Ligne en pointillet (animation)
 		var ligneDashed = new createjs.Shape(); // Ligne principale
@@ -926,8 +950,7 @@ class Flux extends ObjetGraphique
 		*/
 		DOUBLECLICK(evt)
 		{
-			
-// A FAIRE
+			ouvreBoiteEditeFlux(this);
 		}
 		
 }
