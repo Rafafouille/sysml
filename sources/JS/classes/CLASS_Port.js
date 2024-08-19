@@ -91,6 +91,19 @@ class Port extends ObjetGraphique
 		* @default null*/
 		#portJumeau = null
 
+		/** Texte du port
+		* @private
+		* @type {string}
+		* @default ""*/
+		#nom = ""
+
+		/** Objet createjs Texte qui contien l'étiquette
+		* @private
+		* @type {createjs.Text}
+		* @default null*/
+		TEXTE = null
+
+
 		
 		
 	// ****************************************************
@@ -118,6 +131,8 @@ class Port extends ObjetGraphique
 						this.#interieur = _options_.interieur ;
 					if("distanceAccroche" in _options_)
 						this.distanceAccroche = _options_.distanceAccroche ;
+					if("nom" in _options_)
+						this.#nom = _options_.nom ;
 				}
 
 			this.#position = _pos_;
@@ -136,7 +151,7 @@ class Port extends ObjetGraphique
 			this.on("mousedown", this.PRESS);
 			this.on("pressmove", this.PRESSMOVE);
 			//this.on("click",this.UNPRESS);
-			//this.on("dblclick",this.DOUBLECLICK)
+			this.on("dblclick",this.DOUBLECLICK)
 		}
 	
 	
@@ -413,7 +428,7 @@ class Port extends ObjetGraphique
 		 * @param {Port}} [_p_] - Rérérence vers le port jumeau
 		 * @return {Port} Référence vers le port (final).
 		*/
-		portJumeau(_p_, _redessine_=true)
+		portJumeau(_p_)
 		{
 			if(typeof(_p_) != 'undefined')
 			{
@@ -428,6 +443,7 @@ class Port extends ObjetGraphique
 		// ---------------------------------------
 		/** Lorsque le port est attaché à un bloc, ce paramètre indique si le flux doit partir vers l'extérieur (false) ou vers l'intérieur (true). (getter/setter)
 		 * @param {Boolean}} [_i_] - Indique s'il faut être vers l'intérieur ou non.
+		 * @param {boolean} [_redessine_=true] - Dit si on repositionne le bloc graphiquement toute de suite ou pas.
 		 * @return {Boolean} Dit finalement si c'est intérieur ou extérieur.
 		*/
 		interieur(_i_, _redessine_=true)
@@ -435,8 +451,30 @@ class Port extends ObjetGraphique
 			if(typeof(_i_) != 'undefined')
 			{
 				this.#interieur = _i_;
+				if(_redessine_)
+					{this.redessine();}
 			}
 			return this.#interieur;
+		}
+
+
+		
+		
+		// ---------------------------------------
+		/** Nom du port à afficher (Getter/Setter)
+		 * @param {string}} [_n_] - Nom du port.
+		 * @param {boolean} [_redessine_=true] - Dit si on repositionne le bloc graphiquement toute de suite ou pas.
+		 * @return {string} Nom du port (final)
+		*/
+		nom(_n_, _redessine_=true)
+		{
+			if(typeof(_n_) != 'undefined')
+			{
+				this.#nom = _n_;
+				if(_redessine_)
+					{this.redessine();}
+			}
+			return this.#nom;
 		}
 
 
@@ -489,6 +527,7 @@ class Port extends ObjetGraphique
 				if(this.#blocParent)
 					tab.blocParent = this.#blocParent.name
 			tab.distanceAccroche = this.#distanceAccroche ;
+			tab.nom = this.nom();
 
 			return tab;
 		}
@@ -546,7 +585,9 @@ class Port extends ObjetGraphique
 			}
 			this.addChild(fleche);
 		}
-		
+
+		// Nom
+		this.redessineNom()
 		
 		
 		this.x = this.X()*unit;
@@ -555,6 +596,44 @@ class Port extends ObjetGraphique
 	
 		if(_update_)
 			this.stage.update();
+	}
+
+
+	// ---------------------------------------
+	/** Redessine l'étiquette du nom (supposé non existant. Sinon, il faut le supprimer)
+	 * @param {boolean} [_update_=false] - Indique s'il faut mettre à jour la scène (stage).
+	*/
+	redessineNom()
+	{
+		if(this.TEXTE) // On supprime l'ancien objet texte
+		{
+			this.removeChild(this.TEXTE);
+			this.TEXTE = null
+		}
+		if(this.#nom != "") // Si un texte (string) est non vide
+			{
+				this.TEXTE = new createjs.Text(this.nom(), "12px Arial", "black");
+				this.TEXTE.textAlign = "center" ;
+				this.TEXTE.textBaseline = "middle" ;
+				this.addChild(this.TEXTE );
+				this.TEXTE.rotation = -this.rotation;
+				this.rotation = this.rotation%360; // Pour remettre les pendules à l'heure
+
+				// Ce qui suit est un peu naze. A refaire.
+				var anglePosition = 0 ;
+				if(this.rotation<90)
+						anglePosition = -45
+				else if(this.rotation<180)
+						anglePosition = -45
+				else if(this.rotation<270)
+						anglePosition = 225
+				else if(this.rotation<360)
+						anglePosition = 315
+				var rayon = this.TEXTE.getBounds().width/2  + this.#taille*1.5*0.707106781;
+
+				this.TEXTE.x = rayon * Math.cos(anglePosition*Math.PI/180);
+				this.TEXTE.y = rayon * Math.sin(anglePosition*Math.PI/180);
+			}
 	}
 		
 	
@@ -611,9 +690,23 @@ class Port extends ObjetGraphique
 					
 			}
 
+			this.redessineNom()
+			if(this.portJumeau())
+				this.portJumeau().redessineNom();
 			this.parent.redessineLigne();
 		}
 	
+
+		
+		
+		// ---------------------------------------
+		/** Fonction appellée au double-clic de la souris
+		 * @param {event} [evt] - Événement qui vient d'avoir lieu
+		*/
+		DOUBLECLICK(evt)
+		{
+			ouvreBoiteEditePort(this);
+		}
 		
 }
 

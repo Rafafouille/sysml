@@ -326,3 +326,37 @@ checkVisibiliteToutLeMonde = function()
 			elem.checkVisibilite();
 	}
 }
+
+
+
+
+		
+// ---------------------------------------
+/** Ouvre la boite de dialogue qui permet de modifier les infos du port.
+ * @param {Port} _obj_ - Référence vers l'objet
+*/
+ouvreBoiteEditePort = function(_obj_)
+{
+	$("#BOITE_EDITE_PORT_input_nom" ).val( _obj_.nom());
+
+	$("#boiteEditePort").data("nomPort",_obj_.name) ; // Stocke la donnée dans le code HTML (mais ou ?)
+	$("#boiteEditePort").data("nomFlux",_obj_.parent.name) ; // Stocke la donnée dans le code HTML (mais ou ?)
+	$("#boiteEditePort").dialog("open") ;
+}
+
+
+		
+// ---------------------------------------
+/** Fonction qui récupère les données du formulaire "#boiteEditePort" pour les mettre dans le Port
+*/
+updatePortFromDialog = function()
+{
+	var flux = DIAGRAMME.CONTENU.getChildByName($("#boiteEditePort").data("nomFlux"));
+	var port = flux.getChildByName($("#boiteEditePort").data("nomPort"));
+	
+	port.nom($("#BOITE_EDITE_PORT_input_nom").val());
+
+
+
+	flux.redessine();
+}

@@ -6,7 +6,7 @@
         <meta charset="utf-8" />
         <title>SysML</title>
 		<link rel="stylesheet" href="./sources/style/style.css" />
-		<script type="text/javascript" src="/sources/JS/fonctions.js"></script>
+		<script type="text/javascript" src="./sources/JS/fonctions.js"></script>
 		
 		<!-- JQUERY -->
 		<link rel="stylesheet" href="https://libs.allais.eu/jquery/jquery-ui/jquery-ui.css">
@@ -20,15 +20,15 @@
 		
 		<!-- CLASSES -->
 		
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_Position.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_Diagramme.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_IBD.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_objetGraphique.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_Bloc.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_BlocIBD.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_Port.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_Flux.js"></script>
-		<script type="text/javascript" src="/sources/JS/classes/CLASS_MenuContextuel.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_Position.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_Diagramme.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_IBD.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_objetGraphique.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_Bloc.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_BlocIBD.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_Port.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_Flux.js"></script>
+		<script type="text/javascript" src="./sources/JS/classes/CLASS_MenuContextuel.js"></script>
 
 		
 		

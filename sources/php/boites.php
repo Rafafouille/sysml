@@ -152,3 +152,42 @@
 		      },
 	});
 </script>
+
+
+
+
+
+
+<!-- ================== BOITES EDITE INFOS PORT ==================== -->
+<div id="boiteEditePort" title="Editer le port">
+	<table>
+			<tr>
+				<td><lable for="BOITE_EDITE_PORT_input_nom">Nom :</label></td>
+				<td>
+					<input type="text" name="BOITE_EDITE_PORT_input_nom" id="BOITE_EDITE_PORT_input_nom" placeholder="(Facultatif)"/>
+				</td>
+			</tr>
+	</table>
+</div>
+
+
+<script>
+	$("#boiteEditePort").dialog({
+		autoOpen: false,
+		width: 800,
+		height: 400,
+		modal: true,
+		buttons: {
+			"Valider": function() {updatePortFromDialog();$( this ).dialog( "close" );},
+			"Annuler": function() {$( this ).dialog( "close" );}
+			},
+		show: {
+			effect: "blind",
+			duration: 100
+		      },
+		hide: {
+			effect: "blind",
+			duration: 100
+		      },
+	});
+</script>
