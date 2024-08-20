@@ -55,7 +55,7 @@ class Flux extends ObjetGraphique
 		* @default null*/
 		#couleur = null;
 
-		/** Méthode pour traver la ligne du port 1 vers le port 2. Peut être : "lineaire" / "bezier" / "bezier_droit"
+		/** Méthode pour tracer la ligne du port 1 vers le port 2. Peut être : "lineaire" / "bezier" / "bezier_droit"
 		* @private
 		* @type {string}
 		* @default "bezier_droit"*/
@@ -279,7 +279,7 @@ class Flux extends ObjetGraphique
 		
 		
 		// ---------------------------------------
-		/** Epaisseur de trait du flux. (getter/setter) Si on affecte l'épaisseur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.)
+		/** Epaisseur de trait du flux. (getter/setter) Si on affecte l'épaisseur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.). Si la nature n'existe pas, une epaisseur par defaut (1) sera renvoyée.
 		 * @param {number} [_e_] - Epaisseur. Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} Epaisseur (final).
@@ -292,9 +292,17 @@ class Flux extends ObjetGraphique
 				if(_redessine_)
 					{this.redessine();}
 			}
+
+			// Si un epaisseur est imposée
 			if(this.#epaisseur)
 				return this.#epaisseur;
-			return this.#parametresParNature[this.#nature].epaisseur
+
+			// Sinon, on prend la couleur par défaut
+			if(this.#nature in this.#parametresParNature)
+				return this.#parametresParNature[this.#nature].epaisseur
+
+			// Par défaut
+			return 1;
 		}
 		
 		
@@ -309,7 +317,7 @@ class Flux extends ObjetGraphique
 
 
 		// ---------------------------------------
-		/** Couleur du trait du flux. (getter/setter). Si on affecte la couleur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.)
+		/** Couleur du trait du flux. (getter/setter). Si on affecte la couleur null, elle sera automatiquement recherchée en fonction de la nature du flux (information, matière, etc.). Si la nature n'existe pas, une couleur par défaut (noir) sera renvoyée.
 		 * @param {number} [_c_] - Couleur (format html). Si absent, la fonction devient un getter.
 		 * @param {boolean} [_redessine_=true] - Redessine le bloc de zéro.
 		 * @return {number} Couleur (final).
@@ -322,9 +330,15 @@ class Flux extends ObjetGraphique
 				if(_redessine_)
 					{this.redessine();}
 			}
+			// Si une couleur est imposée
 			if(this.#couleur)
 				return this.#couleur;
-			return this.#parametresParNature[this.#nature].couleur
+
+			// Sinon, on prend la couleur par défaut
+			if(this.#nature in this.#parametresParNature)
+				return this.#parametresParNature[this.#nature].couleur
+			//Par defaut
+			return "#000000";
 		}
 		
 
@@ -859,7 +873,7 @@ class Flux extends ObjetGraphique
 				ligneDashed.graphics.lineTo(P.X*unit, P.Y*unit);
 			}
 			
-		}
+		} 
 		else if(this.#methode=="bezier_droit") // BEZIER DROIT ==============
 		{
 			this.resetPointsLignesFromBezier();

@@ -245,8 +245,10 @@ ouvreBoiteEditeFlux = function(_obj_)
 		else
 			$("#BOITE_EDITE_FLUX_input_nature").val("aucun");
 
+	$( "#BOITE_EDITE_FLUX_input_typeTrace" ).val(_obj_.methode());
 	$( "#BOITE_EDITE_FLUX_input_imposeCouleur" ).prop( "checked", _obj_.couleurImposee());
 	$( "#BOITE_EDITE_FLUX_input_imposeEpaisseur" ).prop( "checked", _obj_.epaisseurImposee());
+	$( "#BOITE_EDITE_FLUX_input_anime" ).prop( "checked", _obj_.anime());
 
 	$("#boiteEditeFlux").data("nomBloc",_obj_.name); // Stocke la donnée dans le code HTML (mais ou ?)
 	$("#boiteEditeFlux").dialog("open")
@@ -279,7 +281,9 @@ updateFluxFromDialog = function()
 	if(!$('#BOITE_EDITE_FLUX_input_imposeEpaisseur').is(":checked"))
 		flux.epaisseur(null)
 
-	
+	flux.methode($("#BOITE_EDITE_FLUX_input_typeTrace").val())
+
+	flux.anime($('#BOITE_EDITE_FLUX_input_anime').is(":checked"))
 
 	flux.redessine();
 }
@@ -359,4 +363,38 @@ updatePortFromDialog = function()
 
 
 	flux.redessine();
+}
+
+
+// ---------------------------------------
+/** Fonction qui désactive l'animation de tous les flux
+*/
+arreteAnimations = function()
+{
+	for(var i=0; i<DIAGRAMME.CONTENU.children.length; i++)
+	{
+		var obj = DIAGRAMME.CONTENU.children[i];
+		if(obj instanceof Flux)
+		{
+			obj.anime(false,false);
+		}
+	}
+	DIAGRAMME.redessine();
+}
+
+
+// ---------------------------------------
+/** Fonction qui désactive l'animation de tous les flux
+*/
+animerTout = function()
+{
+	for(var i=0; i<DIAGRAMME.CONTENU.children.length; i++)
+	{
+		var obj = DIAGRAMME.CONTENU.children[i];
+		if(obj instanceof Flux)
+		{
+			obj.anime(true,false);
+		}
+	}
+	DIAGRAMME.redessine();
 }

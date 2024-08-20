@@ -128,6 +128,24 @@
 				</td>
 				<td></td>
 			</tr>
+			<tr>
+				<td><lable for="BOITE_EDITE_FLUX_input_typeTrace">Type de tracé :</label></td>
+				<td>
+					<select name="BOITE_EDITE_FLUX_input_typeTrace" id="BOITE_EDITE_FLUX_input_typeTrace">
+						<option value="lineaire">Linéaire (direct)</option>
+						<option value="bezier">Bézier</option>
+						<option value="bezier_droit">Bézier droit</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="BOITE_EDITE_FLUX_input_anime" name="BOITE_EDITE_FLUX_input_anime" />
+					<lable for="BOITE_EDITE_FLUX_input_anime">Animer le flux</label>
+				</td>
+				<td>
+				</td>
+			</tr>
 	</table>
 </div>
 
